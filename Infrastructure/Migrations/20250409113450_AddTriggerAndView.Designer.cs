@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ILS_BE.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250311032359_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250409113450_AddTriggerAndView")]
+    partial class AddTriggerAndView
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ILS_BE.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Category", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("categories", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ContentItem", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ContentItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,7 +99,6 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasColumnName("order");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("path");
 
@@ -131,7 +130,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("content_items", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ExternalLogin", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ExternalLogin", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -172,7 +171,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("external_logins", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Lesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Lesson", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -240,7 +239,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("lessons", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.LessonType", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.LessonType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -268,7 +267,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("lesson_types", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.LifecycleState", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.LifecycleState", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -296,7 +295,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("lifecycle_states", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Module", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Module", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,7 +380,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("modules", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ModuleTag", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ModuleTag", b =>
                 {
                     b.Property<int>("ModuleId")
                         .HasColumnType("integer")
@@ -409,7 +408,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("module_tags", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Permission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -437,7 +436,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("permissions", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ProgressState", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ProgressState", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -465,7 +464,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("progress_states", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Role", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -499,7 +498,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("roles", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.RolePermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.RolePermission", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("integer")
@@ -527,7 +526,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("role_permissions", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Tag", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -555,7 +554,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("tags", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.User", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -625,7 +624,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserEffectivePermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserEffectivePermission", b =>
                 {
                     b.Property<int>("PermissionId")
                         .HasColumnType("integer")
@@ -635,12 +634,18 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
 
+                    b.HasIndex("PermissionId")
+                        .HasDatabaseName("ix_user_effective_permissions_permission_id");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_effective_permissions_user_id");
+
                     b.ToTable((string)null);
 
                     b.ToView("user_effective_permissions", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserFinishedLesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserFinishedLesson", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -668,7 +673,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_finished_lessons", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserModuleProgress", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserModuleProgress", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -697,7 +702,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_module_progresses", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserPermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserPermission", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -725,7 +730,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_permissions", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserProfile", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserProfile", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer")
@@ -780,7 +785,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_profiles", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserRole", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -808,9 +813,9 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_roles", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ExternalLogin", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ExternalLogin", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -818,16 +823,16 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_external_logins_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Lesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Lesson", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.ContentItem", null)
+                    b.HasOne("ILS_BE.Domain.Models.ContentItem", null)
                         .WithOne("Lesson")
-                        .HasForeignKey("ISL_BE.Domain.Models.Lesson", "ContentItemId")
+                        .HasForeignKey("ILS_BE.Domain.Models.Lesson", "ContentItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_lessons_content_items_content_item_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.LessonType", "LessonType")
+                    b.HasOne("ILS_BE.Domain.Models.LessonType", "LessonType")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -837,29 +842,29 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.Navigation("LessonType");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Module", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Module", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Category", "Category")
+                    b.HasOne("ILS_BE.Domain.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_modules_categories_category_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.ContentItem", null)
+                    b.HasOne("ILS_BE.Domain.Models.ContentItem", null)
                         .WithOne("Module")
-                        .HasForeignKey("ISL_BE.Domain.Models.Module", "ContentItemId")
+                        .HasForeignKey("ILS_BE.Domain.Models.Module", "ContentItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_modules_content_items_content_item_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_modules_users_created_by");
 
-                    b.HasOne("ISL_BE.Domain.Models.LifecycleState", "LifecycleState")
+                    b.HasOne("ILS_BE.Domain.Models.LifecycleState", "LifecycleState")
                         .WithMany()
                         .HasForeignKey("LifecycleStateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -871,16 +876,16 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.Navigation("LifecycleState");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ModuleTag", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ModuleTag", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Module", null)
+                    b.HasOne("ILS_BE.Domain.Models.Module", null)
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_module_tags_modules_module_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.Tag", null)
+                    b.HasOne("ILS_BE.Domain.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -888,16 +893,16 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_module_tags_tags_tag_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.RolePermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.RolePermission", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Permission", null)
+                    b.HasOne("ILS_BE.Domain.Models.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_role_permissions_permissions_permission_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.Role", null)
+                    b.HasOne("ILS_BE.Domain.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -905,16 +910,33 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_role_permissions_roles_role_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserFinishedLesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserEffectivePermission", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Lesson", null)
+                    b.HasOne("ILS_BE.Domain.Models.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_effective_permissions_permissions_permission_id");
+
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_effective_permissions_users_user_id");
+                });
+
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserFinishedLesson", b =>
+                {
+                    b.HasOne("ILS_BE.Domain.Models.Lesson", null)
                         .WithMany()
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_finished_lessons_lessons_lesson_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -922,23 +944,23 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_finished_lessons_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserModuleProgress", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserModuleProgress", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Module", null)
+                    b.HasOne("ILS_BE.Domain.Models.Module", null)
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_module_progresses_modules_module_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.ProgressState", null)
+                    b.HasOne("ILS_BE.Domain.Models.ProgressState", null)
                         .WithMany()
                         .HasForeignKey("ProgressStateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_module_progresses_progress_states_progress_state_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -946,16 +968,16 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_module_progresses_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserPermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserPermission", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Permission", null)
+                    b.HasOne("ILS_BE.Domain.Models.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_permissions_permissions_permission_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -963,26 +985,26 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_permissions_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserProfile", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserProfile", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithOne("Profile")
-                        .HasForeignKey("ISL_BE.Domain.Models.UserProfile", "Id")
+                        .HasForeignKey("ILS_BE.Domain.Models.UserProfile", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_profiles_users_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserRole", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserRole", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Role", null)
+                    b.HasOne("ILS_BE.Domain.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_roles_roles_role_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -990,14 +1012,14 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_roles_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ContentItem", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ContentItem", b =>
                 {
                     b.Navigation("Lesson");
 
                     b.Navigation("Module");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.User", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.User", b =>
                 {
                     b.Navigation("Profile")
                         .IsRequired();

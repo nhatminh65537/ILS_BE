@@ -11,21 +11,26 @@ namespace ILS_BE.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
         public MyUserService(
             IUserRepository userRepository,
             IAuthService authService,
-            IMapper mapper)
+            IMapper mapper,
+            IUserService userService)
         {
             _userRepository = userRepository;
             _authService = authService;
             _mapper = mapper;
+            _userService = userService;
         }
         public async Task<UserDetailDTO> GetMyUser()
         {
             var userId = _authService.GetUserId();
-            var user = await _userRepository.GetUserDetailAsync(userId);
-            
-            return _mapper.Map<UserDetailDTO>(user);
+            var user = await _userRepository.GetUserDetailAsync(userId) ?? throw new Exception("User not found");
+            var userDto = _mapper.Map<UserDetailDTO>(user);
+            userDto.Permissions = await _userService.GetEffectivePermissionsOfUserAsync(userId);
+
+            return userDto;
         }
         public async Task UpdateMyUserAsync(UserDetailDTO userDetailDTO)
         {
@@ -42,7 +47,7 @@ namespace ILS_BE.Application.Services
         public async Task<List<PermissionDTO>> GetPermissionsInMyUserAsync()
         {
             var userId = _authService.GetUserId();
-            var permissions = await _userRepository.GetUserPermissionsAsync(userId);
+            var permissions = await _userService.GetEffectivePermissionsOfUserAsync(userId);
             return _mapper.Map<List<PermissionDTO>>(permissions);
         }
 

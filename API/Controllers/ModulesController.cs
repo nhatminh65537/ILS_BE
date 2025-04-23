@@ -9,18 +9,26 @@ namespace ILS_BE.API.Controllers
     public class ModulesController : ControllerBase
     {
         private readonly IContentItemService _contentItemService;
-        private readonly IDataService<ModuleDTO> _moduleDataService;
-        public ModulesController(IContentItemService contentItemService, IDataService<ModuleDTO> moduleDataService
-            )
+        private readonly IPaginatedDataService<ModuleDTO> _moduleDataService;
+        public ModulesController(IContentItemService contentItemService, IPaginatedDataService<ModuleDTO> moduleDataService)
         {
             _contentItemService = contentItemService;
             _moduleDataService = moduleDataService;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string searchTerm = "", [FromQuery] List<int>? categoryIds = null, [FromQuery] List<int>? lifecycleStateIds = null, [FromQuery] List<int>? tagIds = null, [FromQuery] List<int>? ProgressStateIds = null)
         {
-            return Ok(await _moduleDataService.GetAllAsync());
+            var filters = new Dictionary<string, object>
+            {
+                { "searchTerm", searchTerm },
+                { "categoryId", categoryIds ?? new List<int>() },
+                { "lifecycleStateId", lifecycleStateIds ?? new List<int>() },
+                { "tagId", tagIds ?? new List<int>() }
+            };
+
+            var paginatedResult = await _moduleDataService.GetPaginatedAsync(page, pageSize, filters);
+            return Ok(paginatedResult);
         }
 
         [HttpGet("{id}")]
@@ -32,7 +40,7 @@ namespace ILS_BE.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] ModuleDTO moduleDTO)
         {
-            var contentItemDto =  await _contentItemService.AddModuleAsync(moduleDTO);
+            var contentItemDto = await _contentItemService.AddModuleAsync(moduleDTO);
             return CreatedAtAction(nameof(Get), new { id = contentItemDto.Module?.Id }, contentItemDto);
         }
 

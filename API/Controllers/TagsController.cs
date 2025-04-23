@@ -29,7 +29,7 @@ namespace ILS_BE.API.Controllers
             tagDTO = await _tagDataService.AddAsync(tagDTO);
             return CreatedAtAction(nameof(Get), new { id = tagDTO.Id }, tagDTO);
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] TagDTO tagDTO)
         {
             if (tagDTO.Id != id)
@@ -39,7 +39,7 @@ namespace ILS_BE.API.Controllers
             await _tagDataService.UpdateAsync(tagDTO);
             return NoContent();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _tagDataService.DeleteAsync(id);

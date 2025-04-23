@@ -34,7 +34,7 @@ namespace ILS_BE.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     title = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "text", nullable: true),
-                    path = table.Column<string>(type: "text", nullable: false),
+                    path = table.Column<string>(type: "text", nullable: true),
                     is_module = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     module_id = table.Column<int>(type: "integer", nullable: true),
                     is_lesson = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),

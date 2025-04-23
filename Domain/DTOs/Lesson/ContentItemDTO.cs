@@ -5,6 +5,7 @@ namespace ILS_BE.Domain.DTOs
     public class ContentItemDTO
     {
         public int Id { get; set; }
+        public int? ParentId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public ModuleDTO? Module { get; set; }

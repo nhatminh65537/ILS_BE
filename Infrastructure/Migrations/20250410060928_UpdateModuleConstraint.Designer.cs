@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ILS_BE.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250312020206_UpdatePermissions")]
-    partial class UpdatePermissions
+    [Migration("20250410060928_UpdateModuleConstraint")]
+    partial class UpdateModuleConstraint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -370,7 +370,7 @@ namespace ILS_BE.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("integer")
                         .HasColumnName("category_id");
 
@@ -1720,7 +1720,8 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.HasOne("ILS_BE.Domain.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
                         .HasConstraintName("fk_modules_categories_category_id");
 
                     b.HasOne("ILS_BE.Domain.Models.ContentItem", null)
@@ -1739,7 +1740,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.HasOne("ILS_BE.Domain.Models.LifecycleState", "LifecycleState")
                         .WithMany()
                         .HasForeignKey("LifecycleStateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_modules_lifecycle_states_lifecycle_state_id");
 

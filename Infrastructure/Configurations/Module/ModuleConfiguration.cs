@@ -29,11 +29,11 @@ namespace ILS_BE.Infrastructure.Configurations
             builder.HasOne<Category>(m => m.Category)
                    .WithMany()
                    .HasForeignKey(m => m.CategoryId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne<LifecycleState>(m => m.LifecycleState)
                    .WithMany()
                    .HasForeignKey(m => m.LifecycleStateId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany<Tag>(m => m.Tags)
                    .WithMany()
                    .UsingEntity<ModuleTag>();

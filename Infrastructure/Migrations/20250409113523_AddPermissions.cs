@@ -7,7 +7,7 @@
 namespace ILS_BE.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddInitialData : Migration
+    public partial class AddPermissions : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,46 +52,69 @@ namespace ILS_BE.Infrastructure.Migrations
                     { 2, null, "Auth.Register" },
                     { 3, null, "Auth.Logout" },
                     { 4, null, "Auth.ResetPassword" },
-                    { 5, null, "ContentItems.Get" },
-                    { 6, null, "ContentItems.Create" },
-                    { 7, null, "ContentItems.Update" },
-                    { 8, null, "ContentItems.Delete" },
-                    { 9, null, "ContentItems.GetLessons" },
-                    { 10, null, "Lessons.GetById" },
-                    { 11, null, "Lessons.Create" },
-                    { 12, null, "Lessons.Update" },
-                    { 13, null, "Lessons.Delete" },
-                    { 14, null, "Modules.GetAll" },
-                    { 15, null, "Modules.Get" },
-                    { 16, null, "Modules.Create" },
-                    { 17, null, "Modules.Update" },
-                    { 18, null, "Modules.Delete" },
-                    { 19, null, "Modules.GetTree" },
-                    { 20, null, "Modules.UpdateTree" },
-                    { 21, null, "MyUser.Get" },
-                    { 22, null, "MyUser.Update" },
-                    { 23, null, "Permissions.GetAll" },
-                    { 24, null, "Permissions.Get" },
-                    { 25, null, "Permissions.Put" },
-                    { 26, null, "Roles.GetAll" },
-                    { 27, null, "Roles.Get" },
-                    { 28, null, "Roles.Create" },
-                    { 29, null, "Roles.Update" },
-                    { 30, null, "Roles.Delete" },
-                    { 31, null, "Roles.GetPermissions" },
-                    { 32, null, "Roles.AddPermission" },
-                    { 33, null, "Roles.RemovePermission" },
-                    { 34, null, "Users.GetAll" },
-                    { 35, null, "Users.Get" },
-                    { 36, null, "Users.Create" },
-                    { 37, null, "Users.Update" },
-                    { 38, null, "Users.Delete" },
-                    { 39, null, "Users.GetPermissions" },
-                    { 40, null, "Users.AddPermission" },
-                    { 41, null, "Users.RemovePermission" },
-                    { 42, null, "Users.GetRoles" },
-                    { 43, null, "Users.AddRole" },
-                    { 44, null, "Users.RemoveRole" }
+                    { 5, null, "Categories.GetAll" },
+                    { 6, null, "Categories.Get" },
+                    { 7, null, "Categories.Create" },
+                    { 8, null, "Categories.Update" },
+                    { 9, null, "Categories.Delete" },
+                    { 10, null, "ContentItems.GetAll" },
+                    { 11, null, "ContentItems.Get" },
+                    { 12, null, "ContentItems.Create" },
+                    { 13, null, "ContentItems.Update" },
+                    { 14, null, "ContentItems.Delete" },
+                    { 15, null, "Lessons.GetAll" },
+                    { 16, null, "Lessons.Get" },
+                    { 17, null, "Lessons.Create" },
+                    { 18, null, "Lessons.Update" },
+                    { 19, null, "Lessons.Delete" },
+                    { 20, null, "LessonTypes.GetAll" },
+                    { 21, null, "LessonTypes.Get" },
+                    { 22, null, "LessonTypes.Update" },
+                    { 23, null, "LifecycleStates.GetAll" },
+                    { 24, null, "LifecycleStates.Get" },
+                    { 25, null, "LifecycleStates.Put" },
+                    { 26, null, "Modules.GetAll" },
+                    { 27, null, "Modules.Get" },
+                    { 28, null, "Modules.Update" },
+                    { 29, null, "Modules.Delete" },
+                    { 30, null, "Modules.GetTree" },
+                    { 31, null, "Modules.UpdateTree" },
+                    { 32, null, "MyUser.Get" },
+                    { 33, null, "MyUser.Update" },
+                    { 34, null, "MyUser.GetPermissions" },
+                    { 35, null, "MyUser.GetRoles" },
+                    { 36, null, "MyUser.GetProfile" },
+                    { 37, null, "Permissions.GetAll" },
+                    { 38, null, "Permissions.Get" },
+                    { 39, null, "Permissions.Put" },
+                    { 40, null, "ProgressStates.GetAll" },
+                    { 41, null, "ProgressStates.Get" },
+                    { 42, null, "ProgressStates.Update" },
+                    { 43, null, "Roles.GetAll" },
+                    { 44, null, "Roles.Get" },
+                    { 45, null, "Roles.Create" },
+                    { 46, null, "Roles.Update" },
+                    { 47, null, "Roles.Delete" },
+                    { 48, null, "Roles.GetPermissions" },
+                    { 49, null, "Roles.AddPermission" },
+                    { 50, null, "Roles.RemovePermission" },
+                    { 51, null, "Tags.GetAll" },
+                    { 52, null, "Tags.Get" },
+                    { 53, null, "Tags.Create" },
+                    { 54, null, "Tags.Update" },
+                    { 55, null, "Tags.Delete" },
+                    { 56, null, "Users.GetAll" },
+                    { 57, null, "Users.Get" },
+                    { 58, null, "Users.Create" },
+                    { 59, null, "Users.Update" },
+                    { 60, null, "Users.Delete" },
+                    { 61, null, "Users.GetProfile" },
+                    { 62, null, "Users.GetPermissions" },
+                    { 63, null, "Users.AddPermission" },
+                    { 64, null, "Users.RemovePermission" },
+                    { 65, null, "Users.GetRoles" },
+                    { 66, null, "Users.AddRole" },
+                    { 67, null, "Users.RemoveRole" }
                 });
 
             migrationBuilder.InsertData(
@@ -167,7 +190,30 @@ namespace ILS_BE.Infrastructure.Migrations
                     { 41, 1 },
                     { 42, 1 },
                     { 43, 1 },
-                    { 44, 1 }
+                    { 44, 1 },
+                    { 45, 1 },
+                    { 46, 1 },
+                    { 47, 1 },
+                    { 48, 1 },
+                    { 49, 1 },
+                    { 50, 1 },
+                    { 51, 1 },
+                    { 52, 1 },
+                    { 53, 1 },
+                    { 54, 1 },
+                    { 55, 1 },
+                    { 56, 1 },
+                    { 57, 1 },
+                    { 58, 1 },
+                    { 59, 1 },
+                    { 60, 1 },
+                    { 61, 1 },
+                    { 62, 1 },
+                    { 63, 1 },
+                    { 64, 1 },
+                    { 65, 1 },
+                    { 66, 1 },
+                    { 67, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -465,6 +511,121 @@ namespace ILS_BE.Infrastructure.Migrations
                 keyValues: new object[] { 44, 1 });
 
             migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 45, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 46, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 47, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 48, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 49, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 50, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 51, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 52, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 53, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 54, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 55, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 56, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 57, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 58, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 59, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 60, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 61, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 62, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 63, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 64, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 65, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 66, 1 });
+
+            migrationBuilder.DeleteData(
+                table: "role_permissions",
+                keyColumns: new[] { "permission_id", "role_id" },
+                keyValues: new object[] { 67, 1 });
+
+            migrationBuilder.DeleteData(
                 table: "roles",
                 keyColumn: "id",
                 keyValue: 2);
@@ -698,6 +859,121 @@ namespace ILS_BE.Infrastructure.Migrations
                 table: "permissions",
                 keyColumn: "id",
                 keyValue: 44);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 45);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 46);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 47);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 48);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 49);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 50);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 51);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 52);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 53);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 54);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 55);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 56);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 57);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 58);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 59);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 60);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 61);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 62);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 63);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 64);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 65);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 66);
+
+            migrationBuilder.DeleteData(
+                table: "permissions",
+                keyColumn: "id",
+                keyValue: 67);
 
             migrationBuilder.DeleteData(
                 table: "roles",

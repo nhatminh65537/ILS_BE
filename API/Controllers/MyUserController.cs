@@ -10,42 +10,42 @@ namespace ILS_BE.API.Controllers
     [Authorize]
     public class MyUserController : ControllerBase
     {
-        private readonly IMyUserService _dataService;
+        private readonly IMyUserService _myUserService;
         public MyUserController(IMyUserService serviceProvider)
         {
-            _dataService = serviceProvider;
+            _myUserService = serviceProvider;
         }
 
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            var user = await _dataService.GetMyUser();
+            var user = await _myUserService.GetMyUser();
             return Ok(user);
         }
 
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UserDetailDTO myUserDTO)
         {
-            await _dataService.UpdateMyUserAsync(myUserDTO);
+            await _myUserService.UpdateMyUserAsync(myUserDTO);
             return NoContent();
         }
 
         [HttpGet("permissions")]
         public async Task<ActionResult> GetPermissions()
         {
-            var permissions = await _dataService.GetPermissionsInMyUserAsync();
+            var permissions = await _myUserService.GetPermissionsInMyUserAsync();
             return Ok(permissions);
         }
         [HttpGet("roles")]
         public async Task<ActionResult> GetRoles()
         {
-            var roles = await _dataService.GetRolesInMyUserAsync();
+            var roles = await _myUserService.GetRolesInMyUserAsync();
             return Ok(roles);
         }
         [HttpGet("profile")]
         public async Task<ActionResult> GetProfile()
         {
-            var profile = await _dataService.GetUserProfileInMyUserAsync();
+            var profile = await _myUserService.GetUserProfileInMyUserAsync();
             return Ok(profile);
         }
     }

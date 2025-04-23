@@ -20,7 +20,7 @@ namespace ILS_BE.Common.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IGenericRepository<Module>, ModuleRepository>();
+            services.AddScoped<IPaginatedRepository<Module>, ModuleRepository>();
             services.AddScoped<IGenericRepository<Lesson>, LessonRepository>();
             services.AddScoped<IUserRepository,  UserRepository>();
             services.AddScoped<IContentItemRepository, ContentItemRepository>();
@@ -37,7 +37,7 @@ namespace ILS_BE.Common.Extensions
             services.AddScoped<IMyUserService, MyUserService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IContentItemService, ContentItemService>();
-            services.AddScoped<IDataService<ModuleDTO>, DataService<Module, ModuleDTO>>();
+            services.AddScoped<IPaginatedDataService<ModuleDTO>, PaginatedDataService<Module, ModuleDTO>>();
             services.AddScoped<IDataService<LessonDTO>, DataService<Lesson, LessonDTO>>();
             services.AddScoped<IDataService<ContentItemDTO>, DataService<ContentItem, ContentItemDTO>>();
 

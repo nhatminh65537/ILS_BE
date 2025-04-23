@@ -8,8 +8,8 @@ namespace ILS_BE.API.Controllers
     [Route("api/v1/content-items")]
     public class ContentItemsController : ControllerBase
     {
-        private readonly IDataService<ContentItemDTO> _contentItemDataService;
-        public ContentItemsController(IDataService<ContentItemDTO> contentItemDataService)
+        private readonly IContentItemService _contentItemDataService;
+        public ContentItemsController(IContentItemService contentItemDataService)
         {
             _contentItemDataService = contentItemDataService;
         }

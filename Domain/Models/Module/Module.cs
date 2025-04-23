@@ -8,7 +8,7 @@ namespace ILS_BE.Domain.Models
         public string? ImagePath { get; set; }
         public int? CreatedBy { get; set; }
         public string? Description { get; set; }
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
         public int LifecycleStateId { get; set; }
         public int Xp { get; set; } = 0;
         public int Duration { get; set; } = 0;

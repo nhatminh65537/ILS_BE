@@ -18,6 +18,17 @@ namespace ILS_BE
                 options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"),
                       o => o.SetPostgresVersion(new Version(17, 4))));
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowReactClient",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
+
             builder.Services.AddScoped<DbContext, AppDbContext>();
 
             builder.Services.AddRepositories();
@@ -27,6 +38,8 @@ namespace ILS_BE
             builder.Services.AddServices();
 
             builder.Services.AddOpenApi();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddControllers();
 
@@ -44,6 +57,8 @@ namespace ILS_BE
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseSwagger();
+                app.UseSwaggerUI();
                 app.MapOpenApi();
 
                 //PreTest(app.Configuration);
@@ -52,6 +67,8 @@ namespace ILS_BE
             //app.UseExceptionHandler();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowReactClient");
 
             app.UseAuthentication();
 

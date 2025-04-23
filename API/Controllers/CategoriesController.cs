@@ -29,7 +29,7 @@ namespace ILS_BE.API.Controllers
             await _categoryDataService.AddAsync(categoryDTO);
             return CreatedAtAction(nameof(Get), new { id = categoryDTO.Id }, categoryDTO);
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] CategoryDTO categoryDTO)
         {
             if (categoryDTO.Id != id)
@@ -39,7 +39,7 @@ namespace ILS_BE.API.Controllers
             await _categoryDataService.UpdateAsync(categoryDTO);
             return NoContent();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _categoryDataService.DeleteAsync(id);

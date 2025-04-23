@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ILS_BE.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250311040324_AddInitialData")]
-    partial class AddInitialData
+    [Migration("20250409144705_AddCreateModule")]
+    partial class AddCreateModule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ILS_BE.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Category", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +79,7 @@ namespace ILS_BE.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ContentItem", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ContentItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -125,7 +125,6 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasColumnName("order");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("path");
 
@@ -157,7 +156,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("content_items", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ExternalLogin", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ExternalLogin", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -198,7 +197,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("external_logins", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Lesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Lesson", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -266,7 +265,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("lessons", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.LessonType", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.LessonType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -314,7 +313,7 @@ namespace ILS_BE.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.LifecycleState", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.LifecycleState", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -362,7 +361,7 @@ namespace ILS_BE.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Module", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Module", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -447,7 +446,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("modules", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ModuleTag", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ModuleTag", b =>
                 {
                     b.Property<int>("ModuleId")
                         .HasColumnType("integer")
@@ -475,7 +474,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("module_tags", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Permission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -526,206 +525,326 @@ namespace ILS_BE.Infrastructure.Migrations
                         new
                         {
                             Id = 5,
-                            Name = "ContentItems.Get"
+                            Name = "Categories.GetAll"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "ContentItems.Create"
+                            Name = "Categories.Get"
                         },
                         new
                         {
                             Id = 7,
-                            Name = "ContentItems.Update"
+                            Name = "Categories.Create"
                         },
                         new
                         {
                             Id = 8,
-                            Name = "ContentItems.Delete"
+                            Name = "Categories.Update"
                         },
                         new
                         {
                             Id = 9,
-                            Name = "ContentItems.GetLessons"
+                            Name = "Categories.Delete"
                         },
                         new
                         {
                             Id = 10,
-                            Name = "Lessons.GetById"
+                            Name = "ContentItems.GetAll"
                         },
                         new
                         {
                             Id = 11,
-                            Name = "Lessons.Create"
+                            Name = "ContentItems.Get"
                         },
                         new
                         {
                             Id = 12,
-                            Name = "Lessons.Update"
+                            Name = "ContentItems.Create"
                         },
                         new
                         {
                             Id = 13,
-                            Name = "Lessons.Delete"
+                            Name = "ContentItems.Update"
                         },
                         new
                         {
                             Id = 14,
-                            Name = "Modules.GetAll"
+                            Name = "ContentItems.Delete"
                         },
                         new
                         {
                             Id = 15,
-                            Name = "Modules.Get"
+                            Name = "Lessons.GetAll"
                         },
                         new
                         {
                             Id = 16,
-                            Name = "Modules.Create"
+                            Name = "Lessons.Get"
                         },
                         new
                         {
                             Id = 17,
-                            Name = "Modules.Update"
+                            Name = "Lessons.Create"
                         },
                         new
                         {
                             Id = 18,
-                            Name = "Modules.Delete"
+                            Name = "Lessons.Update"
                         },
                         new
                         {
                             Id = 19,
-                            Name = "Modules.GetTree"
+                            Name = "Lessons.Delete"
                         },
                         new
                         {
                             Id = 20,
-                            Name = "Modules.UpdateTree"
+                            Name = "LessonTypes.GetAll"
                         },
                         new
                         {
                             Id = 21,
-                            Name = "MyUser.Get"
+                            Name = "LessonTypes.Get"
                         },
                         new
                         {
                             Id = 22,
-                            Name = "MyUser.Update"
+                            Name = "LessonTypes.Update"
                         },
                         new
                         {
                             Id = 23,
-                            Name = "Permissions.GetAll"
+                            Name = "LifecycleStates.GetAll"
                         },
                         new
                         {
                             Id = 24,
-                            Name = "Permissions.Get"
+                            Name = "LifecycleStates.Get"
                         },
                         new
                         {
                             Id = 25,
-                            Name = "Permissions.Put"
+                            Name = "LifecycleStates.Put"
                         },
                         new
                         {
                             Id = 26,
-                            Name = "Roles.GetAll"
+                            Name = "Modules.GetAll"
                         },
                         new
                         {
                             Id = 27,
-                            Name = "Roles.Get"
+                            Name = "Modules.Get"
                         },
                         new
                         {
                             Id = 28,
-                            Name = "Roles.Create"
+                            Name = "Modules.Create"
                         },
                         new
                         {
                             Id = 29,
-                            Name = "Roles.Update"
+                            Name = "Modules.Update"
                         },
                         new
                         {
                             Id = 30,
-                            Name = "Roles.Delete"
+                            Name = "Modules.Delete"
                         },
                         new
                         {
                             Id = 31,
-                            Name = "Roles.GetPermissions"
+                            Name = "Modules.GetTree"
                         },
                         new
                         {
                             Id = 32,
-                            Name = "Roles.AddPermission"
+                            Name = "Modules.UpdateTree"
                         },
                         new
                         {
                             Id = 33,
-                            Name = "Roles.RemovePermission"
+                            Name = "MyUser.Get"
                         },
                         new
                         {
                             Id = 34,
-                            Name = "Users.GetAll"
+                            Name = "MyUser.Update"
                         },
                         new
                         {
                             Id = 35,
-                            Name = "Users.Get"
+                            Name = "MyUser.GetPermissions"
                         },
                         new
                         {
                             Id = 36,
-                            Name = "Users.Create"
+                            Name = "MyUser.GetRoles"
                         },
                         new
                         {
                             Id = 37,
-                            Name = "Users.Update"
+                            Name = "MyUser.GetProfile"
                         },
                         new
                         {
                             Id = 38,
-                            Name = "Users.Delete"
+                            Name = "Permissions.GetAll"
                         },
                         new
                         {
                             Id = 39,
-                            Name = "Users.GetPermissions"
+                            Name = "Permissions.Get"
                         },
                         new
                         {
                             Id = 40,
-                            Name = "Users.AddPermission"
+                            Name = "Permissions.Put"
                         },
                         new
                         {
                             Id = 41,
-                            Name = "Users.RemovePermission"
+                            Name = "ProgressStates.GetAll"
                         },
                         new
                         {
                             Id = 42,
-                            Name = "Users.GetRoles"
+                            Name = "ProgressStates.Get"
                         },
                         new
                         {
                             Id = 43,
-                            Name = "Users.AddRole"
+                            Name = "ProgressStates.Update"
                         },
                         new
                         {
                             Id = 44,
+                            Name = "Roles.GetAll"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Name = "Roles.Get"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Name = "Roles.Create"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Name = "Roles.Update"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Name = "Roles.Delete"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Name = "Roles.GetPermissions"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Name = "Roles.AddPermission"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Name = "Roles.RemovePermission"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Name = "Tags.GetAll"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Name = "Tags.Get"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Name = "Tags.Create"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Name = "Tags.Update"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Name = "Tags.Delete"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Name = "Users.GetAll"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Name = "Users.Get"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Name = "Users.Create"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Name = "Users.Update"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Name = "Users.Delete"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Name = "Users.GetProfile"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Name = "Users.GetPermissions"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Name = "Users.AddPermission"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Name = "Users.RemovePermission"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Name = "Users.GetRoles"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Name = "Users.AddRole"
+                        },
+                        new
+                        {
+                            Id = 68,
                             Name = "Users.RemoveRole"
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ProgressState", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ProgressState", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -773,7 +892,7 @@ namespace ILS_BE.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Role", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -827,7 +946,7 @@ namespace ILS_BE.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.RolePermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.RolePermission", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("integer")
@@ -1118,10 +1237,154 @@ namespace ILS_BE.Infrastructure.Migrations
                             RoleId = 1,
                             PermissionId = 44,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 45,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 46,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 47,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 48,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 49,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 50,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 51,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 52,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 53,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 54,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 55,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 56,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 57,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 58,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 59,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 60,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 61,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 62,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 63,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 64,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 65,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 66,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 67,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 68,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Tag", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1149,7 +1412,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("tags", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.User", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1232,7 +1495,7 @@ namespace ILS_BE.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserEffectivePermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserEffectivePermission", b =>
                 {
                     b.Property<int>("PermissionId")
                         .HasColumnType("integer")
@@ -1247,7 +1510,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToView("user_effective_permissions", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserFinishedLesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserFinishedLesson", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -1275,7 +1538,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_finished_lessons", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserModuleProgress", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserModuleProgress", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -1304,7 +1567,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_module_progresses", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserPermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserPermission", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -1332,7 +1595,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_permissions", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserProfile", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserProfile", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer")
@@ -1387,7 +1650,7 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.ToTable("user_profiles", (string)null);
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserRole", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
@@ -1423,9 +1686,9 @@ namespace ILS_BE.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ExternalLogin", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ExternalLogin", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1433,16 +1696,16 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_external_logins_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Lesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Lesson", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.ContentItem", null)
+                    b.HasOne("ILS_BE.Domain.Models.ContentItem", null)
                         .WithOne("Lesson")
-                        .HasForeignKey("ISL_BE.Domain.Models.Lesson", "ContentItemId")
+                        .HasForeignKey("ILS_BE.Domain.Models.Lesson", "ContentItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_lessons_content_items_content_item_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.LessonType", "LessonType")
+                    b.HasOne("ILS_BE.Domain.Models.LessonType", "LessonType")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1452,29 +1715,29 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.Navigation("LessonType");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.Module", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.Module", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Category", "Category")
+                    b.HasOne("ILS_BE.Domain.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_modules_categories_category_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.ContentItem", null)
+                    b.HasOne("ILS_BE.Domain.Models.ContentItem", null)
                         .WithOne("Module")
-                        .HasForeignKey("ISL_BE.Domain.Models.Module", "ContentItemId")
+                        .HasForeignKey("ILS_BE.Domain.Models.Module", "ContentItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_modules_content_items_content_item_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_modules_users_created_by");
 
-                    b.HasOne("ISL_BE.Domain.Models.LifecycleState", "LifecycleState")
+                    b.HasOne("ILS_BE.Domain.Models.LifecycleState", "LifecycleState")
                         .WithMany()
                         .HasForeignKey("LifecycleStateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1486,16 +1749,16 @@ namespace ILS_BE.Infrastructure.Migrations
                     b.Navigation("LifecycleState");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ModuleTag", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ModuleTag", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Module", null)
+                    b.HasOne("ILS_BE.Domain.Models.Module", null)
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_module_tags_modules_module_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.Tag", null)
+                    b.HasOne("ILS_BE.Domain.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1503,16 +1766,16 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_module_tags_tags_tag_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.RolePermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.RolePermission", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Permission", null)
+                    b.HasOne("ILS_BE.Domain.Models.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_role_permissions_permissions_permission_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.Role", null)
+                    b.HasOne("ILS_BE.Domain.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1520,16 +1783,16 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_role_permissions_roles_role_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserFinishedLesson", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserFinishedLesson", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Lesson", null)
+                    b.HasOne("ILS_BE.Domain.Models.Lesson", null)
                         .WithMany()
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_finished_lessons_lessons_lesson_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1537,23 +1800,23 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_finished_lessons_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserModuleProgress", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserModuleProgress", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Module", null)
+                    b.HasOne("ILS_BE.Domain.Models.Module", null)
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_module_progresses_modules_module_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.ProgressState", null)
+                    b.HasOne("ILS_BE.Domain.Models.ProgressState", null)
                         .WithMany()
                         .HasForeignKey("ProgressStateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_module_progresses_progress_states_progress_state_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1561,16 +1824,16 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_module_progresses_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserPermission", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserPermission", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Permission", null)
+                    b.HasOne("ILS_BE.Domain.Models.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_permissions_permissions_permission_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1578,26 +1841,26 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_permissions_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserProfile", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserProfile", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithOne("Profile")
-                        .HasForeignKey("ISL_BE.Domain.Models.UserProfile", "Id")
+                        .HasForeignKey("ILS_BE.Domain.Models.UserProfile", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_profiles_users_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.UserRole", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.UserRole", b =>
                 {
-                    b.HasOne("ISL_BE.Domain.Models.Role", null)
+                    b.HasOne("ILS_BE.Domain.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_roles_roles_role_id");
 
-                    b.HasOne("ISL_BE.Domain.Models.User", null)
+                    b.HasOne("ILS_BE.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1605,14 +1868,14 @@ namespace ILS_BE.Infrastructure.Migrations
                         .HasConstraintName("fk_user_roles_users_user_id");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.ContentItem", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.ContentItem", b =>
                 {
                     b.Navigation("Lesson");
 
                     b.Navigation("Module");
                 });
 
-            modelBuilder.Entity("ISL_BE.Domain.Models.User", b =>
+            modelBuilder.Entity("ILS_BE.Domain.Models.User", b =>
                 {
                     b.Navigation("Profile")
                         .IsRequired();
