@@ -8,7 +8,7 @@ namespace ILS_BE.Domain.MappingProfiles
     {
         public ProgressStateMappingProfile()
         {
-            CreateMap<ProgressState, ProgressStateDTO>()
+            CreateMap<LearnProgressState, ProgressStateDTO>()
                 .ReverseMap()
                 .ForMember(dest => dest.Name, opt => opt.Ignore());
         }

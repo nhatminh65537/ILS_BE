@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ILS_BE.Infrastructure.Configurations
 {
-    public class ModuleConfiguration : IEntityTypeConfiguration<Module>
+    public class LearnModuleConfiguration : IEntityTypeConfiguration<LearnModule>
     {
-        public void Configure(EntityTypeBuilder<Module> builder)
+        public void Configure(EntityTypeBuilder<LearnModule> builder)
         {
             builder.HasKey(m => m.Id);
 
-            builder.HasIndex(m => m.ContentItemId)
+            builder.HasIndex(m => m.NodeId)
                    .IsUnique();
             builder.HasIndex(m => m.Title)
                    .IsUnique();
@@ -18,25 +18,29 @@ namespace ILS_BE.Infrastructure.Configurations
             builder.HasIndex(m => m.CategoryId);
             builder.HasIndex(m => m.LifecycleStateId);
 
-            builder.HasOne<ContentItem>()
-                   .WithOne(ci => ci.Module)
-                   .HasForeignKey<Module>(m => m.ContentItemId)
+            builder.HasOne(m => m.Node)
+                   .WithOne()
+                   .HasForeignKey<LearnModule>(m => m.NodeId)
                    .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasOne<User>()
                    .WithMany()
                    .HasForeignKey(m => m.CreatedBy)
                    .OnDelete(DeleteBehavior.SetNull);
-            builder.HasOne<Category>(m => m.Category)
+
+            builder.HasOne(m => m.Category)
                    .WithMany()
                    .HasForeignKey(m => m.CategoryId)
                    .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne<LifecycleState>(m => m.LifecycleState)
+
+            builder.HasOne(m => m.LifecycleState)
                    .WithMany()
                    .HasForeignKey(m => m.LifecycleStateId)
                    .OnDelete(DeleteBehavior.Restrict);
-            builder.HasMany<Tag>(m => m.Tags)
+
+            builder.HasMany(m => m.Tags)
                    .WithMany()
-                   .UsingEntity<ModuleTag>();
+                   .UsingEntity<LearnModuleTag>();
 
             builder.Property(l => l.Xp)
                    .HasDefaultValue(0);

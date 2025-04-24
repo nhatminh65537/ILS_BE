@@ -12,6 +12,8 @@ using ILS_BE.Application.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using ILS_BE.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace ILS_BE.Common.Extensions
 {
@@ -20,10 +22,10 @@ namespace ILS_BE.Common.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IPaginatedRepository<Module>, ModuleRepository>();
-            services.AddScoped<IGenericRepository<Lesson>, LessonRepository>();
+            services.AddScoped<IPaginatedRepository<LearnModule>, ModuleRepository>();
+            services.AddScoped<IGenericRepository<LearnLesson>, LessonRepository>();
             services.AddScoped<IUserRepository,  UserRepository>();
-            services.AddScoped<IContentItemRepository, ContentItemRepository>();
+            services.AddScoped<IContentItemRepository, LearnNodeRepository>();
         }
 
         public static void AddServices(this IServiceCollection services)
@@ -37,16 +39,16 @@ namespace ILS_BE.Common.Extensions
             services.AddScoped<IMyUserService, MyUserService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IContentItemService, ContentItemService>();
-            services.AddScoped<IPaginatedDataService<ModuleDTO>, PaginatedDataService<Module, ModuleDTO>>();
-            services.AddScoped<IDataService<LessonDTO>, DataService<Lesson, LessonDTO>>();
-            services.AddScoped<IDataService<ContentItemDTO>, DataService<ContentItem, ContentItemDTO>>();
+            services.AddScoped<IPaginatedDataService<ModuleDTO>, PaginatedDataService<LearnModule, ModuleDTO>>();
+            services.AddScoped<IDataService<LessonDTO>, DataService<LearnLesson, LessonDTO>>();
+            services.AddScoped<IDataService<LearnNodeDTO>, DataService<LearnNode, LearnNodeDTO>>();
 
-            services.AddScoped(typeof(IDataService<TagDTO>), typeof(DataService<Tag, TagDTO>));
-            services.AddScoped(typeof(IDataService<CategoryDTO>), typeof(DataService<Category, CategoryDTO>));
+            services.AddScoped(typeof(IDataService<TagDTO>), typeof(DataService<LearnTag, TagDTO>));
+            services.AddScoped(typeof(IDataService<CategoryDTO>), typeof(DataService<LearnCategory, CategoryDTO>));
             services.AddScoped(typeof(IDataService<PermissionDTO>), typeof(DataService<Permission, PermissionDTO>));
-            services.AddScoped(typeof(IDataService<LessonTypeDTO>), typeof(DataService<LessonType, LessonTypeDTO>));
-            services.AddScoped(typeof(IDataService<ProgressStateDTO>), typeof(DataService<ProgressState, ProgressStateDTO>));
-            services.AddScoped(typeof(IDataService<LifecycleStateDTO>), typeof(DataService<LifecycleState, LifecycleStateDTO>));
+            services.AddScoped(typeof(IDataService<LessonTypeDTO>), typeof(DataService<LearnLessonType, LessonTypeDTO>));
+            services.AddScoped(typeof(IDataService<ProgressStateDTO>), typeof(DataService<LearnProgressState, ProgressStateDTO>));
+            services.AddScoped(typeof(IDataService<LifecycleStateDTO>), typeof(DataService<LearnLifecycleState, LifecycleStateDTO>));
         }
 
         public static void AddJWTAuthentication(this IServiceCollection services, IConfiguration configuration)
@@ -93,20 +95,22 @@ namespace ILS_BE.Common.Extensions
         { 
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
-            using (var serviceProvider = services.BuildServiceProvider())
-            {
-                var _permissionRepository = serviceProvider.GetRequiredService<IGenericRepository<Permission>>();
-                var permissions = _permissionRepository.GetAll().ToList();
 
-                services.AddAuthorization(options =>
+            using var serviceProvider = services.BuildServiceProvider();
+            var context = serviceProvider.GetRequiredService<AppDbContext>();
+            context.Database.Migrate();
+
+            var _permissionRepository = serviceProvider.GetRequiredService<IGenericRepository<Permission>>();
+            var permissions = _permissionRepository.GetAll().ToList();
+
+            services.AddAuthorization(options =>
+            {
+                foreach (var permission in permissions)
                 {
-                    foreach (var permission in permissions)
-                    {
-                        options.AddPolicy(permission.Name, policy =>
-                            policy.Requirements.Add(new PermissionRequirement(permission.Id)));
-                    }
-                });
-            }
+                    options.AddPolicy(permission.Name, policy =>
+                        policy.Requirements.Add(new PermissionRequirement(permission.Id)));
+                }
+            });
         }
         
     }

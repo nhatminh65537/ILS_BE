@@ -25,13 +25,13 @@ namespace ILS_BE.API.Controllers
             return Ok(await _contentItemDataService.GetByIdAsync(id));
         }
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] ContentItemDTO contentItemDto)
+        public async Task<ActionResult> Create([FromBody] LearnNodeDTO contentItemDto)
         {
             contentItemDto = await _contentItemDataService.AddAsync(contentItemDto);
             return CreatedAtAction(nameof(Get), new { id = contentItemDto.Id }, contentItemDto);
         }
         [HttpPut]
-        public ActionResult Update(int id, [FromBody] ContentItemDTO contentItemDTO)
+        public ActionResult Update(int id, [FromBody] LearnNodeDTO contentItemDTO)
         {
             if (contentItemDTO.Id != id)
             {

@@ -4,21 +4,21 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ILS_BE.Infrastructure.Configurations
 {
-    public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
+    public class LearnLessonConfiguration : IEntityTypeConfiguration<LearnLesson>
     {
-        public void Configure(EntityTypeBuilder<Lesson> builder)
+        public void Configure(EntityTypeBuilder<LearnLesson> builder)
         {
             builder.HasKey(l => l.Id);
-            builder.HasIndex(l => l.ContentItemId)
+            builder.HasIndex(l => l.NodeId)
                    .IsUnique();
             builder.HasIndex(l => l.Title)
                    .IsUnique();
             builder.HasIndex(l => l.TypeId);
-            builder.HasOne<ContentItem>()
+            builder.HasOne(ll => ll.Node)
                    .WithOne(ci => ci.Lesson)
-                   .HasForeignKey<Lesson>(l => l.ContentItemId)
+                   .HasForeignKey<LearnLesson>(l => l.NodeId)
                    .OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne<LessonType>(l => l.LessonType)
+            builder.HasOne(l => l.LessonType)
                    .WithMany()
                    .HasForeignKey(l => l.TypeId)
                    .OnDelete(DeleteBehavior.Cascade);

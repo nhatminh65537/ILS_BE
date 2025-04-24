@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ILS_BE.Infrastructure.Configurations
 {
-    public class ProgressStateConfiguration : IEntityTypeConfiguration<ProgressState>
+    public class LearnProgressStateConfiguration : IEntityTypeConfiguration<LearnProgressState>
     {
-        public void Configure(EntityTypeBuilder<ProgressState> builder)
+        public void Configure(EntityTypeBuilder<LearnProgressState> builder)
         {
             builder.HasKey(ps => ps.Id);
             builder.HasIndex(ps => ps.Name)

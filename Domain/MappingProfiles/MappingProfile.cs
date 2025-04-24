@@ -3,11 +3,19 @@ using ILS_BE.Domain.DTOs;
 using ILS_BE.Domain.Interfaces;
 using ILS_BE.Domain.Models;
 
-public class MappingProfile : Profile
+namespace ILS_BE.Domain.MappingProfiles
 {
-    public MappingProfile()
+    public class MappingProfile : Profile
     {
-        CreateMap<PaginatedResult<Module>, PaginatedResult<ModuleDTO>>();
-        // Add other mappings here
+        public MappingProfile()
+        {
+            CreateMap<PaginatedResult<LearnModule>, PaginatedResult<ModuleDTO>>();
+
+            CreateMap<BaseEntity<int>, BaseDTO<int>>()
+                .ReverseMap()
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+        }
     }
 }
+

@@ -5,13 +5,13 @@ using System.Linq.Expressions;
 
 namespace ILS_BE.Infrastructure.Repositories
 {
-    public class ModuleRepository : GenericRepository<Module>, IPaginatedRepository<Module>
+    public class ModuleRepository : GenericRepository<LearnModule>, IPaginatedRepository<LearnModule>
     {
         public ModuleRepository(DbContext context) : base(context)
         {
         }
 
-        public override async Task<List<Module>> GetAllAsync()
+        public override async Task<List<LearnModule>> GetAllAsync()
         {
             try
             {
@@ -28,7 +28,7 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public override async Task<Module?> GetByIdAsync(int id)
+        public override async Task<LearnModule?> GetByIdAsync(int id)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public override async Task<Module?> GetFirstWhereAsync(Expression<Func<Module, bool>> expression)
+        public override async Task<LearnModule?> GetFirstWhereAsync(Expression<Func<LearnModule, bool>> expression)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public override List<Module> GetAll()
+        public override List<LearnModule> GetAll()
         {
             try
             {
@@ -78,7 +78,7 @@ namespace ILS_BE.Infrastructure.Repositories
                 throw new Exception("Could not retrieve entities", ex);
             }
         }
-        public override Module? GetById(int id)
+        public override LearnModule? GetById(int id)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public override Module? GetFirstWhere(Expression<Func<Module, bool>> expression)
+        public override LearnModule? GetFirstWhere(Expression<Func<LearnModule, bool>> expression)
         {
             try
             {
@@ -112,11 +112,11 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public async Task<PaginatedResult<Module>> GetPaginatedAsync(int page, int pageSize, Dictionary<string, object> filters)
+        public async Task<PaginatedResult<LearnModule>> GetPaginatedAsync(int page, int pageSize, Dictionary<string, object> filters)
         {
             try
             {
-                IQueryable<Module> query = _dbSet
+                IQueryable<LearnModule> query = _dbSet
                     .Include(m => m.Category)
                     .Include(m => m.LifecycleState)
                     .Include(m => m.Tags);
@@ -136,7 +136,7 @@ namespace ILS_BE.Infrastructure.Repositories
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
-                return new PaginatedResult<Module>
+                return new PaginatedResult<LearnModule>
                 {
                     CurrentPage = page,
                     TotalItems = totalItems,

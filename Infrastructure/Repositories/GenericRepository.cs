@@ -100,11 +100,7 @@ namespace ILS_BE.Infrastructure.Repositories
         {
             try
             {
-                var entity = await _dbSet.FindAsync(id);
-                if (entity == null)
-                {
-                    throw new Exception($"Entity with id {id} not found");
-                }
+                var entity = await _dbSet.FindAsync(id) ?? throw new Exception($"Entity with id {id} not found");
                 _dbSet.Remove(entity);
             }
             catch (Exception ex)
@@ -224,11 +220,7 @@ namespace ILS_BE.Infrastructure.Repositories
         {
             try
             {
-                var entity = _dbSet.Find(id);
-                if (entity == null)
-                {
-                    throw new Exception($"Entity with id {id} not found");
-                }
+                var entity = _dbSet.Find(id) ?? throw new Exception($"Entity with id {id} not found");
                 _dbSet.Remove(entity);
             }
             catch (Exception ex)

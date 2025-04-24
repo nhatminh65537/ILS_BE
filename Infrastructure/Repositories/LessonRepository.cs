@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ILS_BE.Infrastructure.Repositories
 {
-    public class LessonRepository : GenericRepository<Lesson>
+    public class LessonRepository : GenericRepository<LearnLesson>
     {
         public LessonRepository(DbContext context) : base(context)
         {
         }
 
-        public override async Task<Lesson?> GetByIdAsync(int id)
+        public override async Task<LearnLesson?> GetByIdAsync(int id)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public override async Task<List<Lesson>> GetAllAsync()
+        public override async Task<List<LearnLesson>> GetAllAsync()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public override Lesson? GetById(int id)
+        public override LearnLesson? GetById(int id)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace ILS_BE.Infrastructure.Repositories
             }
         }
 
-        public override List<Lesson> GetAll()
+        public override List<LearnLesson> GetAll()
         {
             try
             {

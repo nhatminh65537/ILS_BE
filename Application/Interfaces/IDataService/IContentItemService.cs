@@ -2,11 +2,11 @@
 
 namespace ILS_BE.Application.Interfaces
 {
-    public interface IContentItemService : IDataService<ContentItemDTO>
+    public interface IContentItemService : IDataService<LearnNodeDTO>
     {
         public Task<ContentItemTreeDTO> GetModuleTreeByIdAsync(int id);
         public Task UpdateModuleTreeAsync(ContentItemTreeDTO moduleDetailDTO);
-        public Task<ContentItemDTO> AddModuleAsync(ModuleDTO moduleDto);
-        public Task<ContentItemDTO> AddLessonAsync(LessonDTO lessonDTO);
+        public Task<LearnNodeDTO> AddModuleAsync(ModuleDTO moduleDto);
+        public Task<LearnNodeDTO> AddLessonAsync(LessonDTO lessonDTO);
     }
 }

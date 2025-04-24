@@ -18,7 +18,7 @@ namespace ILS_BE.Infrastructure.Configurations
                    .HasForeignKey(ufl => ufl.UserId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne<Lesson>()
+            builder.HasOne<LearnLesson>()
                    .WithMany()
                    .HasForeignKey(ufl => ufl.LessonId)
                    .OnDelete(DeleteBehavior.Cascade);

@@ -4,20 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ILS_BE.Infrastructure.Configurations
 {
-    public class ContentItemConfiguration : IEntityTypeConfiguration<ContentItem>
+    public class LearnNodeConfiguration : IEntityTypeConfiguration<LearnNode>
     {
-        public void Configure(EntityTypeBuilder<ContentItem> builder)
+        public void Configure(EntityTypeBuilder<LearnNode> builder)
         {
             builder.HasKey(ci => ci.Id);
 
             builder.HasIndex(ci => ci.Title)
                    .IsUnique();
-            builder.HasIndex(ci => ci.ModuleId)
-                   .IsUnique();
             builder.HasIndex(ci => ci.LessonId)
                    .IsUnique();
-            builder.Property(ci => ci.IsModule)
-                   .HasDefaultValue(false);
             builder.Property(ci => ci.IsLesson)
                    .HasDefaultValue(false);
             builder.Property(ci => ci.Order)

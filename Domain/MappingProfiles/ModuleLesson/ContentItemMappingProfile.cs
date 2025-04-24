@@ -8,7 +8,7 @@ namespace ILS_BE.Domain.MappingProfiles
     {
         public ContentItemMappingProfile()
         {
-            CreateMap<ContentItem, ContentItemDTO>()
+            CreateMap<LearnNode, LearnNodeDTO>()
                 .ReverseMap()
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
         }

@@ -2,6 +2,8 @@ using ILS_BE.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using ILS_BE.Infrastructure.Configurations;
 using ILS_BE.Infrastructure.SeedData;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 namespace ILS_BE.Infrastructure
 {
@@ -27,15 +29,15 @@ namespace ILS_BE.Infrastructure
         public DbSet<UserEffectivePermission> UserEffectivePermissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
 
-        public DbSet<Module> Modules { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<ProgressState> ProgressStates { get; set; }
-        public DbSet<LifecycleState> LifecycleStates { get; set; }
-        public DbSet<ModuleTag> ModuleTags { get; set; }
-        public DbSet<ContentItem> ContentItems { get; set; }
-        public DbSet<Lesson> Lessons { get; set; }
-        public DbSet<LessonType> LessonTypes { get; set; }
+        public DbSet<LearnModule> Modules { get; set; }
+        public DbSet<LearnCategory> Categories { get; set; }
+        public DbSet<LearnTag> Tags { get; set; }
+        public DbSet<LearnProgressState> ProgressStates { get; set; }
+        public DbSet<LearnLifecycleState> LifecycleStates { get; set; }
+        public DbSet<LearnModuleTag> ModuleTags { get; set; }
+        public DbSet<LearnNode> ContentItems { get; set; }
+        public DbSet<LearnLesson> Lessons { get; set; }
+        public DbSet<LearnLessonType> LessonTypes { get; set; }
         public DbSet<UserModuleProgress> UserModuleProgresses { get; set; }
         public DbSet<UserFinishedLesson> UserFinishedLessons { get; set; }
 
@@ -53,15 +55,15 @@ namespace ILS_BE.Infrastructure
             modelBuilder.ApplyConfiguration(new UserEffectivePermissionConfiguration());
             modelBuilder.ApplyConfiguration(new UserPermissionConfiguration());
 
-            modelBuilder.ApplyConfiguration(new ModuleConfiguration());
-            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new TagConfiguration());
-            modelBuilder.ApplyConfiguration(new ProgressStateConfiguration());
-            modelBuilder.ApplyConfiguration(new LifecycleStateConfiguration());
-            modelBuilder.ApplyConfiguration(new ModuleTagConfiguration());
-            modelBuilder.ApplyConfiguration(new ContentItemConfiguration());
-            modelBuilder.ApplyConfiguration(new LessonConfiguration());
-            modelBuilder.ApplyConfiguration(new LessonTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnModuleConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnTagConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnProgressStateConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnLifecycleStateConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnModuleTagConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnNodeConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnLessonConfiguration());
+            modelBuilder.ApplyConfiguration(new LearnLessonTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserModuleProgressConfiguration());
             modelBuilder.ApplyConfiguration(new UserFinishedLessonConfiguration());
 
@@ -95,6 +97,19 @@ namespace ILS_BE.Infrastructure
             }
             return base.SaveChanges();
         }
+
+        //public override Task<int> SaveChangesAsync()
+        //{
+        //    foreach (var entry in ChangeTracker.Entries())
+        //    {
+        //        if (entry.State == EntityState.Modified)
+        //        {
+        //            entry.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
+        //        }
+        //    }
+        //    this.SaveChangesAsync
+        //    return base.SaveChangesAsync();
+        //}
 
         
     }

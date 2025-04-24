@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ILS_BE.Infrastructure.Repositories
 {
-    public class ContentItemRepository : GenericRepository<ContentItem>, IContentItemRepository
+    public class ContentItemRepository : GenericRepository<LearnNode>, IContentItemRepository
     {
         public ContentItemRepository(DbContext context) : base(context)
         {
         }
-        public async Task<List<ContentItem>> GetContentItemsInModuleAsync(int moduleId)
+        public async Task<List<LearnNode>> GetContentItemsInModuleAsync(int moduleId)
         {
             var rootContainItem = await _dbSet
                 .Include(ci => ci.Module).ThenInclude(m => m.Category)
@@ -27,7 +27,7 @@ namespace ILS_BE.Infrastructure.Repositories
             return ContentItems;
 
         }
-        public List<ContentItem> GetContentItemsInModule(int moduleId)
+        public List<LearnNode> GetContentItemsInModule(int moduleId)
         {
             var rootContainItem = _dbSet
                 .Include(ci => ci.Module).ThenInclude(m => m.Category)

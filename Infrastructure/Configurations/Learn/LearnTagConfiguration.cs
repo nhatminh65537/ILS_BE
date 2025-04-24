@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ILS_BE.Infrastructure.Configurations
 {
-    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class LearnTagConfiguration : IEntityTypeConfiguration<LearnTag>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<LearnTag> builder)
         {
-            builder.HasKey(c => c.Id);
-            builder.HasIndex(c => c.Name)
+            builder.HasKey(t => t.Id);
+            builder.HasIndex(t => t.Name)
                    .IsUnique();
         }
     }

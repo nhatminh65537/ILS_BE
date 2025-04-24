@@ -19,12 +19,12 @@ namespace ILS_BE.Infrastructure.Configurations
                    .HasForeignKey(ump => ump.UserId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne<Module>()
+            builder.HasOne<LearnModule>()
                    .WithMany()
                    .HasForeignKey(ump => ump.ModuleId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne<ProgressState>()
+            builder.HasOne<LearnProgressState>()
                    .WithMany()
                    .HasForeignKey(ump => ump.ProgressStateId)
                    .OnDelete(DeleteBehavior.Cascade);

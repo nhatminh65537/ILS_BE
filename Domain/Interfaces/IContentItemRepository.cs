@@ -2,9 +2,9 @@
 
 namespace ILS_BE.Domain.Interfaces
 {
-    public interface IContentItemRepository : IGenericRepository<ContentItem>
+    public interface IContentItemRepository : IGenericRepository<LearnNode>
     {
-        public Task<List<ContentItem>> GetContentItemsInModuleAsync(int moduleId);
-        public List<ContentItem> GetContentItemsInModule(int moduleId);
+        public Task<List<LearnNode>> GetContentItemsInModuleAsync(int moduleId);
+        public List<LearnNode> GetContentItemsInModule(int moduleId);
     }
 }

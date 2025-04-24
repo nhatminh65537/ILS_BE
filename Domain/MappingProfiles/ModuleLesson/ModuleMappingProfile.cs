@@ -8,17 +8,17 @@ namespace ILS_BE.Domain.MappingProfiles
     {
         public ModuleMappingProfile()
         {
-            CreateMap<Module, ModuleDTO>()
+            CreateMap<LearnModule, ModuleDTO>()
                 .ReverseMap()
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.Tags, opt => opt.Ignore())
-                .ForMember(dest => dest.ContentItemId, opt => opt.Ignore());
-            CreateMap<LifecycleState, LifecycleStateDTO>() 
+                .ForMember(dest => dest.NodeId, opt => opt.Ignore());
+            CreateMap<LearnLifecycleState, LifecycleStateDTO>() 
                 .ReverseMap()
                 .ForMember(dest => dest.Name, opt => opt.Ignore());
-            CreateMap<Tag, TagDTO>()
+            CreateMap<LearnTag, TagDTO>()
                 .ReverseMap();
-            CreateMap<Category, CategoryDTO>()
+            CreateMap<LearnCategory, CategoryDTO>()
                 .ReverseMap();
         }
     }

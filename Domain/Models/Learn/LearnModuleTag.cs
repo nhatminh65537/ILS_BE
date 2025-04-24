@@ -1,6 +1,6 @@
 namespace ILS_BE.Domain.Models
 {
-    public class ModuleTag
+    public class LearnModuleTag
     {
         public int ModuleId { get; set; }
         public int TagId { get; set; }
