@@ -10,10 +10,5 @@ namespace ILS_BE.Application.Interfaces
         Task<TDTO> AddAsync(TDTO entity);
         Task UpdateAsync(TDTO entity);
         Task DeleteAsync(int id);
-        List<TDTO> GetAll();
-        TDTO? GetById(int id);
-        TDTO Add(TDTO entity);
-        void Delete(int id);
-        void Update(TDTO entity);
     }
 }

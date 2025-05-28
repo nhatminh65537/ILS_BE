@@ -8,13 +8,13 @@ namespace ILS_BE.Application.Services
 {
     public class RoleService : DataService<Role, RoleDTO>, IRoleService
     {
-        private readonly IGenericRepository<Permission> _permissionRepository;
-        private readonly IGenericRepository<RolePermission> _rolePermissionRepository;
+        private readonly IRepository<Permission> _permissionRepository;
+        private readonly IRepository<RolePermission> _rolePermissionRepository;
 
         public RoleService(
-            IGenericRepository<Role> roleRepository,
-            IGenericRepository<Permission> permissionRepository,
-            IGenericRepository<RolePermission> rolePermissionRepository,
+            IRepository<Role> roleRepository,
+            IRepository<Permission> permissionRepository,
+            IRepository<RolePermission> rolePermissionRepository,
             IMapper mapper ) : base(roleRepository, mapper)
         {
             _permissionRepository = permissionRepository;

@@ -10,5 +10,9 @@ namespace ILS_BE.Application.Interfaces
         public Task<List<PermissionDTO>> GetPermissionsInMyUserAsync();
         public Task<List<RoleDTO>> GetRolesInMyUserAsync();
         public Task<UserProfileDTO> GetUserProfileInMyUserAsync();
+        public Task<List<UserModuleProgressDTO>> GetModuleProgressAsync();
+        public Task UpdateLearnModuleProgress(UserModuleProgressCreateOrUpdateDTO progressDTO);
+        public Task UpdateLearnLessonFinish(int lessonId);
+        public Task<List<int>> GetLessonFinishAsync(int moduleId);
     }
 }

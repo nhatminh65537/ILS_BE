@@ -1,48 +1,60 @@
 ﻿using ILS_BE.Domain.Interfaces;
 using ILS_BE.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ILS_BE.Infrastructure.Repositories
 {
-    public class ContentItemRepository : GenericRepository<LearnNode>, IContentItemRepository
+    public class LearnNodeRepository : Repository<LearnNode>
     {
-        public ContentItemRepository(DbContext context) : base(context)
+        public LearnNodeRepository(AppDbContext context) : base(context)
         {
         }
-        public async Task<List<LearnNode>> GetContentItemsInModuleAsync(int moduleId)
-        {
-            var rootContainItem = await _dbSet
-                .Include(ci => ci.Module).ThenInclude(m => m.Category)
-                .Include(ci => ci.Module).ThenInclude(m => m.LifecycleState)
-                .Include(ci => ci.Module).ThenInclude(m => m.Tags)
-                .FirstOrDefaultAsync(ci => ci.ModuleId == moduleId)
-                ?? throw new Exception("Module not found");
-            var rootPath = rootContainItem.Path + rootContainItem.Id.
-                ToString() + ".";
-            var ContentItems = await _dbSet.Where(ci => ci.Path.StartsWith(rootPath))
-                .Include(ci => ci.Lesson)
-                .ThenInclude(l => l.LessonType)
-                .ToListAsync();
-            ContentItems.Insert(0, rootContainItem);
-            return ContentItems;
 
-        }
-        public List<LearnNode> GetContentItemsInModule(int moduleId)
+        public override async Task<LearnNode?> GetByIdAsync(int id)
         {
-            var rootContainItem = _dbSet
-                .Include(ci => ci.Module).ThenInclude(m => m.Category)
-                .Include(ci => ci.Module).ThenInclude(m => m.LifecycleState)
-                .Include(ci => ci.Module).ThenInclude(m => m.Tags)
-                .FirstOrDefault(ci => ci.ModuleId == moduleId)
-                ?? throw new Exception("Module not found");
-            var rootPath = rootContainItem.Path + rootContainItem.Id.
-                ToString() + ".";
-            var ContentItems = _dbSet.Where(ci => ci.Path.StartsWith(rootPath))
-                .Include(ci => ci.Lesson)
-                .ThenInclude(l => l.LessonType)
-                .ToList();
-            ContentItems.Insert(0, rootContainItem);
-            return ContentItems;
+            try
+            {
+                return await _dbSet
+                    .Include(n => n.Lesson)
+                    .ThenInclude(l => l.LessonType)
+                    .FirstOrDefaultAsync(n => n.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Could not retrieve entity with id {id}", ex);
+            }
+        }
+        public override async Task<List<LearnNode>> GetAllAsync()
+        {
+            try
+            {
+                return await _dbSet
+                    .Include(n => n.Lesson)
+                    .ThenInclude(l => l.LessonType)
+                    .OrderBy(n => n.Order)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not retrieve entities", ex);
+            }
+        }
+        public override async Task<List<LearnNode>> GetWhereAsync(Expression<Func<LearnNode, bool>> expression)
+        {
+            try
+            {
+                return await _dbSet
+                    .Include(n => n.Lesson)
+                    .ThenInclude(l => l.LessonType)
+                    .Where(expression)
+                    .OrderBy(n => n.Order)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not retrieve entities", ex);
+            }
         }
     }
 }

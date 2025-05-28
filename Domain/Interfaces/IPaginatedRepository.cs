@@ -1,6 +1,6 @@
 ﻿namespace ILS_BE.Domain.Interfaces
 {
-    public interface IPaginatedRepository<TModel> : IGenericRepository<TModel>
+    public interface IPaginatedRepository<TModel> : IRepository<TModel>
         where TModel : class
     {
         public Task<PaginatedResult<TModel>> GetPaginatedAsync(int page, int pageSize, Dictionary<string, object> filters);

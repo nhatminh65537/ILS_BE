@@ -2,7 +2,7 @@
 
 namespace ILS_BE.Domain.Interfaces
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository : IRepository<User>
     {
         Task<User?> GetUserDetailAsync(int id);
         User? GetUserDetail(int id);

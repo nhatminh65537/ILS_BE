@@ -1,6 +1,7 @@
 using AutoMapper;
 using ILS_BE.Domain.Models;
 using ILS_BE.Domain.DTOs;
+using Microsoft.AspNetCore.Identity;
 
 namespace ILS_BE.Domain.MappingProfiles
 {
@@ -8,17 +9,17 @@ namespace ILS_BE.Domain.MappingProfiles
     {
         public ModuleMappingProfile()
         {
-            CreateMap<LearnModule, ModuleDTO>()
-                .ReverseMap()
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.Tags, opt => opt.Ignore())
-                .ForMember(dest => dest.NodeId, opt => opt.Ignore());
-            CreateMap<LearnLifecycleState, LifecycleStateDTO>() 
+            CreateMap<LearnModule, LearnModuleDTO>();
+            CreateMap<LearnModuleCreateOrUpdateDTO, LearnModule>()
+                .ForMember(dest => dest.Xp, opt => opt.Ignore())
+                .ForMember(dest => dest.Duration, opt => opt.Ignore());
+
+            CreateMap<LearnLifecycleState, LearnLifecycleStateDTO>() 
                 .ReverseMap()
                 .ForMember(dest => dest.Name, opt => opt.Ignore());
-            CreateMap<LearnTag, TagDTO>()
+            CreateMap<LearnTag, LearnTagDTO>()
                 .ReverseMap();
-            CreateMap<LearnCategory, CategoryDTO>()
+            CreateMap<LearnCategory, LearnCategoryDTO>()
                 .ReverseMap();
         }
     }

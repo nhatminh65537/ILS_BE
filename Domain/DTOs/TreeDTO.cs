@@ -2,7 +2,7 @@
 {
     public class TreeDTO<NDTO>
     {
-        NDTO Item { get; set; } = default!;
+        public NDTO Item { get; set; } = default!;
         public List<TreeDTO<NDTO>> Children { get; set; } = default!;
     }
 }

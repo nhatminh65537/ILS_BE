@@ -48,7 +48,7 @@ namespace ILS_BE.Application.Services
         {
             var userId = _authService.GetUserId();
             var permissions = await _userService.GetEffectivePermissionsOfUserAsync(userId);
-            return _mapper.Map<List<PermissionDTO>>(permissions);
+            return permissions;
         }
 
         public async Task<List<RoleDTO>> GetRolesInMyUserAsync()
@@ -63,6 +63,33 @@ namespace ILS_BE.Application.Services
             var userId = _authService.GetUserId();
             var userProfile = await _userRepository.GetUserProfileAsync(userId);
             return _mapper.Map<UserProfileDTO>(userProfile);
+        }
+
+        public async Task<List<UserModuleProgressDTO>> GetModuleProgressAsync()
+        {
+            var userId = _authService.GetUserId();
+            var userModuleProgressDto = await _userService.GetUserModuleProgressAsync(userId);
+            return userModuleProgressDto;
+        }
+
+        public async Task UpdateLearnModuleProgress(UserModuleProgressCreateOrUpdateDTO progressDTO)
+        {
+            var userId = _authService.GetUserId();
+            progressDTO.UserId = userId;
+            await _userService.UpdateUserLearnModuleProgressAsync(progressDTO);
+        }
+
+        public async Task UpdateLearnLessonFinish(int lessonId)
+        {
+            var userId = _authService.GetUserId();
+            await _userService.UpdateUserLearnLessonFinishAsync(lessonId, userId);
+        }
+
+        public async Task<List<int>> GetLessonFinishAsync(int moduleId)
+        {
+            var userId = _authService.GetUserId();
+            var lessons = await _userService.GetUserLessonFinishAsync(userId, moduleId);
+            return lessons.Select(l => l.Id).ToList();
         }
     }
 }

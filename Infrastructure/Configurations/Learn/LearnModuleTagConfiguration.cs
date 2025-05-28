@@ -11,14 +11,9 @@ namespace ILS_BE.Infrastructure.Configurations
             builder.HasKey(mt => new { mt.ModuleId, mt.TagId });
             builder.HasIndex(mt => mt.ModuleId);
             builder.HasIndex(mt => mt.TagId);
-            builder.HasOne<LearnModule>()
-                   .WithMany()
-                   .HasForeignKey(mt => mt.ModuleId)
-                   .OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne<LearnTag>()
-                   .WithMany()
-                   .HasForeignKey(mt => mt.TagId)
-                   .OnDelete(DeleteBehavior.Cascade);
+            
+            
+
             builder.Property(mt => mt.CreatedAt)
                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }

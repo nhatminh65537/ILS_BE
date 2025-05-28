@@ -29,7 +29,7 @@ namespace ILS_BE
                     });
             });
 
-            builder.Services.AddScoped<DbContext, AppDbContext>();
+            builder.Services.AddScoped<AppDbContext>();
 
             builder.Services.AddRepositories();
 
@@ -45,7 +45,10 @@ namespace ILS_BE
 
             builder.Services.AddJWTAuthentication(builder.Configuration);
 
-            builder.Services.AddAuthorizationPermissions(); // Ignore When Migration
+            if (!(AppDomain.CurrentDomain.FriendlyName == "ef"))
+            {
+                builder.Services.AddAuthorizationPermissions();
+            }
 
             builder.Services.AddDistributedMemoryCache();
 

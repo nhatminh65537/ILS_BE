@@ -11,10 +11,10 @@ namespace ILS_BE.Application.Services
         where TDTO : class
         where TModel : class
     {
-        protected readonly IGenericRepository<TModel> _repository;
+        protected readonly IRepository<TModel> _repository;
         protected readonly IMapper _mapper;
 
-        public DataService(IGenericRepository<TModel> repository, IMapper mapper)
+        public DataService(IRepository<TModel> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -59,42 +59,5 @@ namespace ILS_BE.Application.Services
             await _repository.SaveAsync();
         }
 
-        public virtual List<TDTO> GetAll()
-        {
-            var entities = _repository.GetAll();
-            return _mapper.Map<List<TDTO>>(entities);
-        }
-
-        public virtual TDTO? GetById(int id)
-        {
-            var entity = _repository.GetById(id);
-            return _mapper.Map<TDTO>(entity);
-        }
-
-        public virtual TDTO Add(TDTO entityDto)
-        {
-            var entity = _repository.Add(_mapper.Map<TModel>(entityDto));
-            _repository.Save();
-            return _mapper.Map<TDTO>(entity);
-        }
-
-        public virtual void Delete(int id)
-        {
-            _repository.Delete(id);
-            _repository.Save();
-        }
-
-        public virtual void Update(TDTO entityDto)
-        {
-            var id = typeof(TDTO).GetProperty("Id")?.GetValue(entityDto)
-                ?? throw new Exception("DataService: DTO does not have an Id property");
-
-            var entity = _repository.GetById((int)id)
-                ?? throw new Exception("DataService: Entity has ID not found");
-
-            _mapper.Map(entityDto, entity);
-            _repository.Update(entity);
-            _repository.Save();
-        }
     }
 }

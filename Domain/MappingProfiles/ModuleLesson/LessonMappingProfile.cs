@@ -8,13 +8,11 @@ namespace ILS_BE.Domain.MappingProfiles
     {
         public LessonMappingProfile()
         {
-            CreateMap<LearnLesson, LessonDTO>()
-                .ReverseMap()
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.NodeId, opt => opt.Ignore());
-            CreateMap<LearnLesson, LessonContentDTO>()
-                .ReverseMap();
-            CreateMap<LearnLessonType, LessonTypeDTO>()
+            CreateMap<LearnLesson, LearnLessonNodeDTO>();
+            CreateMap<LearnLessonCreateOrUpdateDTO, LearnLesson>();
+            CreateMap<LearnLesson, LearnLessonDTO>();
+
+            CreateMap<LearnLessonType, LearnLessonTypeDTO>()
                 .ReverseMap()
                 .ForMember(dest => dest.Name, opt => opt.Ignore());
         }

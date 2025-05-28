@@ -9,23 +9,23 @@ namespace ILS_BE.Application.Authorization
 {
     public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
     {
-        private readonly IGenericRepository<UserEffectivePermission> _userEffectivePermissionRepository;
+        private readonly UserPermissionStore _userPermissionStore;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PermissionHandler(IGenericRepository<UserEffectivePermission> userEffectivePermissionRepository, IHttpContextAccessor httpContextAccessor)
+        public PermissionHandler(UserPermissionStore userPermissionStore, IHttpContextAccessor httpContextAccessor)
         {
-            _userEffectivePermissionRepository = userEffectivePermissionRepository;
+            _userPermissionStore = userPermissionStore;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
             var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userIdClaim))
             {
                 context.Fail();
-                return;
+                return Task.CompletedTask;
             }
 
             if (!int.TryParse(userIdClaim, out int userId))
@@ -34,8 +34,8 @@ namespace ILS_BE.Application.Authorization
             }
 
             
-            var hasPermission = await _userEffectivePermissionRepository.GetFirstWhereAsync(upv => upv.UserId == userId && upv.PermissionId == requirement.PermissionId);
-            if (hasPermission != null)
+            var hasPermission = _userPermissionStore.HasPermission(userId, requirement.PermissionId);
+            if (hasPermission)
             {
                 context.Succeed(requirement);
             }
@@ -43,6 +43,8 @@ namespace ILS_BE.Application.Authorization
             {
                 context.Fail();
             }
+
+            return Task.CompletedTask;
         }
     }
 }

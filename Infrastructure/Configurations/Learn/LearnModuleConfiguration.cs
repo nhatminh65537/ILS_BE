@@ -40,7 +40,15 @@ namespace ILS_BE.Infrastructure.Configurations
 
             builder.HasMany(m => m.Tags)
                    .WithMany()
-                   .UsingEntity<LearnModuleTag>();
+                   .UsingEntity<LearnModuleTag>(
+                b => b.HasOne<LearnTag>()
+                   .WithMany()
+                   .HasForeignKey(mt => mt.TagId)
+                   .OnDelete(DeleteBehavior.Cascade),
+                b => b.HasOne<LearnModule>()
+                   .WithMany()
+                   .HasForeignKey(mt => mt.ModuleId)
+                   .OnDelete(DeleteBehavior.Cascade));
 
             builder.Property(l => l.Xp)
                    .HasDefaultValue(0);

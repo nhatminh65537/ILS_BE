@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using ILS_BE.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using ILS_BE.Application.Services.DataServices;
 
 namespace ILS_BE.Common.Extensions
 {
@@ -21,34 +22,41 @@ namespace ILS_BE.Common.Extensions
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IPaginatedRepository<LearnModule>, ModuleRepository>();
-            services.AddScoped<IGenericRepository<LearnLesson>, LessonRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<UserEffectivePermissionRepository>();
+            services.AddScoped<IPaginatedRepository<LearnModule>, LearnModuleRepository>();
+            services.AddScoped<LearnModuleRepository>();
+            services.AddScoped<IRepository<LearnLesson>, LearnLessonRepository>();
+            services.AddScoped<IRepository<LearnNode>, LearnNodeRepository>();
             services.AddScoped<IUserRepository,  UserRepository>();
-            services.AddScoped<IContentItemRepository, LearnNodeRepository>();
+            
         }
 
         public static void AddServices(this IServiceCollection services)
         {
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<PasswordService>();
+            services.AddScoped<LearnNodeService>();
+            services.AddScoped<LearnLessonService>();
+            services.AddScoped<LearnModuleService>();
+
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IMyUserService, MyUserService>();
             services.AddScoped<IPasswordService, PasswordService>();
-            services.AddScoped<IContentItemService, ContentItemService>();
-            services.AddScoped<IPaginatedDataService<ModuleDTO>, PaginatedDataService<LearnModule, ModuleDTO>>();
-            services.AddScoped<IDataService<LessonDTO>, DataService<LearnLesson, LessonDTO>>();
+            services.AddScoped<INodeService<LearnNodeDTO>, LearnNodeService>();
+            services.AddScoped<IPaginatedDataService<LearnModuleDTO>, PaginatedDataService<LearnModule, LearnModuleDTO>>();
+            services.AddScoped<IDataService<LearnLessonNodeDTO>, DataService<LearnLesson, LearnLessonNodeDTO>>();
             services.AddScoped<IDataService<LearnNodeDTO>, DataService<LearnNode, LearnNodeDTO>>();
 
-            services.AddScoped(typeof(IDataService<TagDTO>), typeof(DataService<LearnTag, TagDTO>));
-            services.AddScoped(typeof(IDataService<CategoryDTO>), typeof(DataService<LearnCategory, CategoryDTO>));
+            services.AddScoped(typeof(IDataService<LearnTagDTO>), typeof(DataService<LearnTag, LearnTagDTO>));
+            services.AddScoped(typeof(IDataService<LearnCategoryDTO>), typeof(DataService<LearnCategory, LearnCategoryDTO>));
             services.AddScoped(typeof(IDataService<PermissionDTO>), typeof(DataService<Permission, PermissionDTO>));
-            services.AddScoped(typeof(IDataService<LessonTypeDTO>), typeof(DataService<LearnLessonType, LessonTypeDTO>));
-            services.AddScoped(typeof(IDataService<ProgressStateDTO>), typeof(DataService<LearnProgressState, ProgressStateDTO>));
-            services.AddScoped(typeof(IDataService<LifecycleStateDTO>), typeof(DataService<LearnLifecycleState, LifecycleStateDTO>));
+            services.AddScoped(typeof(IDataService<LearnLessonTypeDTO>), typeof(DataService<LearnLessonType, LearnLessonTypeDTO>));
+            services.AddScoped(typeof(IDataService<LearnProgressStateDTO>), typeof(DataService<LearnProgressState, LearnProgressStateDTO>));
+            services.AddScoped(typeof(IDataService<LearnLifecycleStateDTO>), typeof(DataService<LearnLifecycleState, LearnLifecycleStateDTO>));
         }
 
         public static void AddJWTAuthentication(this IServiceCollection services, IConfiguration configuration)
@@ -93,14 +101,13 @@ namespace ILS_BE.Common.Extensions
 
         public static void AddAuthorizationPermissions(this IServiceCollection services)
         { 
+            services.AddSingleton<UserPermissionStore>();
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
-
+                                                                    
             using var serviceProvider = services.BuildServiceProvider();
-            var context = serviceProvider.GetRequiredService<AppDbContext>();
-            context.Database.Migrate();
 
-            var _permissionRepository = serviceProvider.GetRequiredService<IGenericRepository<Permission>>();
+            var _permissionRepository = serviceProvider.GetRequiredService<IRepository<Permission>>();
             var permissions = _permissionRepository.GetAll().ToList();
 
             services.AddAuthorization(options =>

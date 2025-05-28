@@ -37,7 +37,7 @@
     <Folder Include="API\Middleware\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Helpers\" />
-    <Folder Include="Infrastructure\Migrations\" />
+    <Folder Include="Domain\DTOs\Lesson\" />
   </ItemGroup>
 
 </Project>

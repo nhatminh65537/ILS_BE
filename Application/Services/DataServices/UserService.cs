@@ -5,29 +5,45 @@ using ILS_BE.Domain.Interfaces;
 using Microsoft.AspNetCore.Components;
 using AutoMapper;
 using ILS_BE.Application.Interfaces;
+using System.Collections.Generic;
 
 namespace ILS_BE.Application.Services
 {
     public class UserService : DataService<User, UserDTO>, IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IGenericRepository<UserRole> _userRoleRepository;
-        private readonly IGenericRepository<Permission> _permissionRepository;
-        private readonly IGenericRepository<UserPermission> _userPermissionRepository;
-        private readonly IGenericRepository<UserEffectivePermission> _userEffectivePermissionRepository;
+        private readonly IRepository<UserRole> _userRoleRepository;
+        private readonly IRepository<Permission> _permissionRepository;
+        private readonly IRepository<UserPermission> _userPermissionRepository;
+        private readonly IPaginatedRepository<LearnModule> _learnModuleRepository;
+        private readonly IRepository<LearnNode> _learnNodeRepository;
+        private readonly IRepository<UserFinishedLesson> _userFinishedLessonRepository;
+        private readonly IRepository<UserModuleProgress> _userModuleProgressRepository;
+        private readonly IRepository<LearnProgressState> _learnProgressStateRepository;
+        private readonly UserEffectivePermissionRepository _userEffectivePermissionRepository;
 
         public UserService(
             IUserRepository userRepository,
-            IGenericRepository<UserRole> userRoleRepository,
-            IGenericRepository<Permission> permissionRepository,
-            IGenericRepository<UserPermission> userPermissionRepository,
-            IGenericRepository<UserEffectivePermission> userEffectivePermissionRepository,
+            IRepository<UserRole> userRoleRepository,
+            IRepository<Permission> permissionRepository,
+            IRepository<UserPermission> userPermissionRepository,
+            IPaginatedRepository<LearnModule> learnModuleRepository,
+            IRepository<LearnNode> learnNodeRepository,
+            IRepository<UserFinishedLesson> userFinishedLessonRepository,
+            IRepository<UserModuleProgress> userModuleProgressRepository,
+            IRepository<LearnProgressState> learnProgressStateRepository,
+            UserEffectivePermissionRepository userEffectivePermissionRepository,
             IMapper mapper) : base(userRepository, mapper)
         {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
             _permissionRepository = permissionRepository;
             _userPermissionRepository = userPermissionRepository;
+            _learnModuleRepository = learnModuleRepository;
+            _learnNodeRepository = learnNodeRepository;
+            _userFinishedLessonRepository = userFinishedLessonRepository;
+            _userModuleProgressRepository = userModuleProgressRepository;
+            _learnProgressStateRepository = learnProgressStateRepository;
             _userEffectivePermissionRepository = userEffectivePermissionRepository;
         }
 
@@ -55,7 +71,7 @@ namespace ILS_BE.Application.Services
 
         public async Task AddRoleToUserAsync(int userId, int roleId)
         {
-            var userRole = new UserRole { UserId = userId, RoleId = roleId};
+            var userRole = new UserRole { UserId = userId, RoleId = roleId };
             await _userRoleRepository.AddAsync(userRole);
             await _userRoleRepository.SaveAsync();
         }
@@ -68,9 +84,9 @@ namespace ILS_BE.Application.Services
 
         public async Task<List<PermissionDTO>> GetEffectivePermissionsOfUserAsync(int userId)
         {
-            var userPermissions = await _userEffectivePermissionRepository.GetWhereAsync(upv => upv.UserId == userId);
+            var userPermissions = await _userEffectivePermissionRepository.GetUserEffectivePermissionsAsync(userId);
             var permissionIds = userPermissions.Select(up => up.PermissionId);
-            var permissions = await _permissionRepository.GetWhereAsync(p => permissionIds.Contains(userId));
+            var permissions = await _permissionRepository.GetWhereAsync(p => permissionIds.Contains(p.Id));
             return _mapper.Map<List<PermissionDTO>>(permissions);
         }
 
@@ -87,6 +103,71 @@ namespace ILS_BE.Application.Services
             await _userPermissionRepository.SaveAsync();
         }
 
+        public async Task<List<UserModuleProgressDTO>> GetUserModuleProgressAsync(int userId)
+        {
+            var userModules = await _userModuleProgressRepository.GetWhereAsync(up => up.UserId == userId);
+            List<UserModuleProgressDTO> userModuleProgressDTOs = new List<UserModuleProgressDTO>();
+            for (int i = 0; i < userModules.Count; i++)
+            {
+                var userModule = userModules[i];
+                var progressState = await _learnProgressStateRepository.GetByIdAsync(userModule.ProgressStateId);
+                var lessons = await GetUserLessonFinishAsync(userId, userModule.ModuleId);
+                var sumDuration = lessons.Sum(l => l.Duration);
+                var module = await _learnModuleRepository.GetByIdAsync(userModule.ModuleId)
+                    ?? throw new Exception($"Module with ID {userModule.ModuleId} not found");
+                userModuleProgressDTOs.Add(new UserModuleProgressDTO
+                {
+                    UserId = userModule.UserId,
+                    ModuleId = userModule.ModuleId,
+                    ProgressState = _mapper.Map<LearnProgressStateDTO>(progressState),
+                    ProgressPercentage = (float) sumDuration / module.Duration * 100
+                });
+            }
+            return userModuleProgressDTOs;
+        }
 
+        public async Task<List<LearnLessonNodeDTO>> GetUserLessonFinishAsync(int userId, int moduleId)
+        {
+            var userFinishedLessonIds = (await _userFinishedLessonRepository.GetWhereAsync(ufl => ufl.UserId == userId)).Select(ufl => ufl.LessonId).ToList();
+            var module = await _learnModuleRepository.GetByIdAsync(moduleId)
+                ?? throw new Exception($"Module with ID {moduleId} not found");
+            var path = '.' + module.Node.Id.ToString() + '.';
+            var userModuleLesson = await _learnNodeRepository.GetWhereAsync(n => n.Path.StartsWith(path) && n.IsLesson && userFinishedLessonIds.Contains(n.Lesson!.Id));
+            return _mapper.Map<List<LearnLessonNodeDTO>>(userModuleLesson.Select(n => n.Lesson));
+        }
+
+        public async Task UpdateUserLearnModuleProgressAsync(UserModuleProgressCreateOrUpdateDTO userModuleProgressCreateOrUpdateDTO)
+        {
+            var userModuleProgress = _mapper.Map<UserModuleProgress>(userModuleProgressCreateOrUpdateDTO);
+            var existingProgress = await _userModuleProgressRepository.GetFirstWhereAsync(
+                up => up.UserId == userModuleProgress.UserId && up.ModuleId == userModuleProgress.ModuleId);
+            if (existingProgress != null)
+            {
+                existingProgress.ProgressStateId = userModuleProgress.ProgressStateId;
+                await _userModuleProgressRepository.UpdateAsync(existingProgress);
+            }
+            else
+            {
+                await _userModuleProgressRepository.AddAsync(userModuleProgress);
+            }
+            await _userModuleProgressRepository.SaveAsync();
+        }
+
+        public async Task UpdateUserLearnLessonFinishAsync(int lessonId, int userId)
+        {
+            var userFinishedLesson = new UserFinishedLesson
+            {
+                UserId = userId,
+                LessonId = lessonId,
+                CreatedAt = DateTime.UtcNow
+            };
+            var existingLesson = await _userFinishedLessonRepository.GetFirstWhereAsync(
+                ufl => ufl.UserId == userFinishedLesson.UserId && ufl.LessonId == userFinishedLesson.LessonId);
+            if (existingLesson == null)
+            {
+                await _userFinishedLessonRepository.AddAsync(userFinishedLesson);
+            }
+            await _userFinishedLessonRepository.SaveAsync();
+        }
     }
 }

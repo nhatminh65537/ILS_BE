@@ -11,18 +11,21 @@ namespace ILS_BE.Application.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IGenericRepository<User> _userRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IPasswordService _passwordService;
         private readonly ITokenService _tokenService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AuthService(
-            IGenericRepository<User> userRepository,
+            IRepository<User> userRepository,
+            IRepository<UserProfile> userProfileRepository,
             IPasswordService passwordService, 
             ITokenService tokenService,
             IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
+            _userProfileRepository = userProfileRepository;
             _passwordService = passwordService;
             _tokenService = tokenService;
             _httpContextAccessor = httpContextAccessor;
@@ -71,8 +74,16 @@ namespace ILS_BE.Application.Services
             var newUser = _passwordService.CreateUserWithHashedPassword(
                 new User { UserName = request.UserName, Email = request.Email },
                 request.Password);
-            await _userRepository.AddAsync(newUser);
+            var user = await _userRepository.AddAsync(newUser);
             await _userRepository.SaveAsync();
+
+            var userProfile = new UserProfile {
+                Id = user.Id,
+                DisplayName = request.UserName 
+            };
+            await _userProfileRepository.AddAsync(userProfile);
+            await _userProfileRepository.SaveAsync();
+
             return true;
         }
 

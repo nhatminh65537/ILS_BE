@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ILS_BE.Infrastructure.Repositories
 {
-    public class UserRepository : GenericRepository<User>, IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(DbContext context) : base(context)
+        public UserRepository(AppDbContext context) : base(context)
         {
         }
         public async Task<User?> GetUserDetailAsync(int id)

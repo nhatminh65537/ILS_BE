@@ -14,6 +14,10 @@ namespace ILS_BE.Infrastructure.Configurations
                    .IsUnique();
             builder.HasIndex(ci => ci.LessonId)
                    .IsUnique();
+            builder.HasOne(ci => ci.Lesson)
+                   .WithOne()
+                   .HasForeignKey<LearnNode>(l => l.LessonId)
+                   .OnDelete(DeleteBehavior.Cascade);
             builder.Property(ci => ci.IsLesson)
                    .HasDefaultValue(false);
             builder.Property(ci => ci.Order)

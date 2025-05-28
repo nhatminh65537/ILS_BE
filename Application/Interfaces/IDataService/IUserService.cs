@@ -13,5 +13,10 @@ namespace ILS_BE.Application.Interfaces
         Task<List<PermissionDTO>> GetEffectivePermissionsOfUserAsync(int userId);
         Task AddPermissionToUserAsync(int userId, int permissionId);
         Task RemovePermissionFromUserAsync(int userId, int permissionId);
+        Task<List<UserModuleProgressDTO>> GetUserModuleProgressAsync(int userId);
+        Task<List<LearnLessonNodeDTO>> GetUserLessonFinishAsync(int userId, int moduleId);
+        Task UpdateUserLearnModuleProgressAsync(UserModuleProgressCreateOrUpdateDTO userModuleProgressCreateOrUpdateDTO);
+
+        Task UpdateUserLearnLessonFinishAsync(int lessonId, int userId);
     }
 }

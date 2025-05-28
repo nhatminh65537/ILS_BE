@@ -2,8 +2,6 @@ using ILS_BE.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using ILS_BE.Infrastructure.Configurations;
 using ILS_BE.Infrastructure.SeedData;
-using System.Runtime.CompilerServices;
-using System.ComponentModel;
 
 namespace ILS_BE.Infrastructure
 {
@@ -26,18 +24,17 @@ namespace ILS_BE.Infrastructure
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<ExternalLogin> ExternalLogins { get; set; }
-        public DbSet<UserEffectivePermission> UserEffectivePermissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
 
-        public DbSet<LearnModule> Modules { get; set; }
-        public DbSet<LearnCategory> Categories { get; set; }
-        public DbSet<LearnTag> Tags { get; set; }
-        public DbSet<LearnProgressState> ProgressStates { get; set; }
-        public DbSet<LearnLifecycleState> LifecycleStates { get; set; }
-        public DbSet<LearnModuleTag> ModuleTags { get; set; }
-        public DbSet<LearnNode> ContentItems { get; set; }
-        public DbSet<LearnLesson> Lessons { get; set; }
-        public DbSet<LearnLessonType> LessonTypes { get; set; }
+        public DbSet<LearnModule> LearnModules { get; set; }
+        public DbSet<LearnCategory> LearnCategories { get; set; }
+        public DbSet<LearnTag> LearnTags { get; set; }
+        public DbSet<LearnProgressState> LearnProgressStates { get; set; }
+        public DbSet<LearnLifecycleState> LearnLifecycleStates { get; set; }
+        public DbSet<LearnModuleTag> LearnModuleTags { get; set; }
+        public DbSet<LearnNode> LearnNodes { get; set; }
+        public DbSet<LearnLesson> LearnLessons { get; set; }
+        public DbSet<LearnLessonType> LearnLessonTypes { get; set; }
         public DbSet<UserModuleProgress> UserModuleProgresses { get; set; }
         public DbSet<UserFinishedLesson> UserFinishedLessons { get; set; }
 
@@ -52,7 +49,6 @@ namespace ILS_BE.Infrastructure
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
             modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
             modelBuilder.ApplyConfiguration(new ExternalLoginConfiguration());
-            modelBuilder.ApplyConfiguration(new UserEffectivePermissionConfiguration());
             modelBuilder.ApplyConfiguration(new UserPermissionConfiguration());
 
             modelBuilder.ApplyConfiguration(new LearnModuleConfiguration());
@@ -90,7 +86,8 @@ namespace ILS_BE.Infrastructure
         {
             foreach (var entry in ChangeTracker.Entries())
             {
-                if (entry.State == EntityState.Modified)
+                if (entry.State == EntityState.Modified &&
+                     entry.Metadata.FindProperty("UpdatedAt") is not null)
                 {
                     entry.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
                 }
@@ -98,19 +95,17 @@ namespace ILS_BE.Infrastructure
             return base.SaveChanges();
         }
 
-        //public override Task<int> SaveChangesAsync()
-        //{
-        //    foreach (var entry in ChangeTracker.Entries())
-        //    {
-        //        if (entry.State == EntityState.Modified)
-        //        {
-        //            entry.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
-        //        }
-        //    }
-        //    this.SaveChangesAsync
-        //    return base.SaveChangesAsync();
-        //}
-
-        
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                if (entry.State == EntityState.Modified &&
+                     entry.Metadata.FindProperty("UpdatedAt") is not null)
+                {
+                    entry.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
+                }
+            }
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 }
