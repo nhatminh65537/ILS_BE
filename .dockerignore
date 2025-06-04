@@ -1,0 +1,36 @@
+# Ignore build output
+bin/
+obj/
+out/
+*.user
+*.suo
+
+# Ignore Rider and VSCode settings
+.vs/
+.idea/
+.vscode/
+*.swp
+
+# Ignore test results
+TestResults/
+*.coverage
+*.coverageinfo
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log
+
+# Ignore local config
+appsettings.Development.json
+secrets.json
+
+# Ignore NuGet packages (unless you want to cache them)
+*.nupkg
+.nuget/
+
+# Ignore docker artifacts
+Dockerfile.*
+docker-compose.*
