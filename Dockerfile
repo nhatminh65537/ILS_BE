@@ -19,9 +19,6 @@ WORKDIR /app
 # Copy published output from build stage
 COPY --from=build /app/publish .
 
-# Expose port (change if your app uses a different port)
-EXPOSE 8080
-
 # Set environment variables (override in docker-compose or deployment)
 # ENV ASPNETCORE_ENVIRONMENT=Production
 # ENV ConnectionStrings__PostgresConnection=Host=yourdb;Database=yourdb;Username=youruser;Password=yourpass
