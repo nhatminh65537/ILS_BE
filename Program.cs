@@ -23,7 +23,7 @@ namespace ILS_BE
                 options.AddPolicy(name: "AllowReactClient",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:5173")
+                        policy.AllowAnyOrigin()
                               .AllowAnyHeader()
                               .AllowAnyMethod();
                     });
