@@ -1059,382 +1059,402 @@ namespace ILS_BE.Migrations
                         new
                         {
                             Id = 20,
-                            Name = "ChallengeState.GetAll"
+                            Name = "ChallengeProblem.UploadFile"
                         },
                         new
                         {
                             Id = 21,
-                            Name = "ChallengeState.Get"
+                            Name = "ChallengeProblem.UpdateFile"
                         },
                         new
                         {
                             Id = 22,
-                            Name = "ChallengeState.Update"
+                            Name = "ChallengeState.GetAll"
                         },
                         new
                         {
                             Id = 23,
-                            Name = "ChallengeTag.GetAll"
+                            Name = "ChallengeState.Get"
                         },
                         new
                         {
                             Id = 24,
-                            Name = "ChallengeTag.Get"
+                            Name = "ChallengeState.Update"
                         },
                         new
                         {
                             Id = 25,
-                            Name = "ChallengeTag.Create"
+                            Name = "ChallengeTag.GetAll"
                         },
                         new
                         {
                             Id = 26,
-                            Name = "ChallengeTag.Update"
+                            Name = "ChallengeTag.Get"
                         },
                         new
                         {
                             Id = 27,
-                            Name = "ChallengeTag.Delete"
+                            Name = "ChallengeTag.Create"
                         },
                         new
                         {
                             Id = 28,
-                            Name = "LearnCategories.GetAll"
+                            Name = "ChallengeTag.Update"
                         },
                         new
                         {
                             Id = 29,
-                            Name = "LearnCategories.Get"
+                            Name = "ChallengeTag.Delete"
                         },
                         new
                         {
                             Id = 30,
-                            Name = "LearnCategories.Create"
+                            Name = "CheckFlag.CheckFlag"
                         },
                         new
                         {
                             Id = 31,
-                            Name = "LearnCategories.Update"
+                            Name = "LearnCategories.GetAll"
                         },
                         new
                         {
                             Id = 32,
-                            Name = "LearnCategories.Delete"
+                            Name = "LearnCategories.Get"
                         },
                         new
                         {
                             Id = 33,
-                            Name = "LearnLessons.GetAll"
+                            Name = "LearnCategories.Create"
                         },
                         new
                         {
                             Id = 34,
-                            Name = "LearnLessons.Get"
+                            Name = "LearnCategories.Update"
                         },
                         new
                         {
                             Id = 35,
-                            Name = "LearnLessons.Create"
+                            Name = "LearnCategories.Delete"
                         },
                         new
                         {
                             Id = 36,
-                            Name = "LearnLessons.Update"
+                            Name = "LearnLessons.GetAll"
                         },
                         new
                         {
                             Id = 37,
-                            Name = "LearnLessons.Delete"
+                            Name = "LearnLessons.Get"
                         },
                         new
                         {
                             Id = 38,
-                            Name = "LearnLessonTypes.GetAll"
+                            Name = "LearnLessons.Create"
                         },
                         new
                         {
                             Id = 39,
-                            Name = "LearnLessonTypes.Get"
+                            Name = "LearnLessons.Update"
                         },
                         new
                         {
                             Id = 40,
-                            Name = "LearnLessonTypes.Update"
+                            Name = "LearnLessons.Delete"
                         },
                         new
                         {
                             Id = 41,
-                            Name = "LearnLifecycleStates.GetAll"
+                            Name = "LearnLessonTypes.GetAll"
                         },
                         new
                         {
                             Id = 42,
-                            Name = "LearnLifecycleStates.Get"
+                            Name = "LearnLessonTypes.Get"
                         },
                         new
                         {
                             Id = 43,
-                            Name = "LearnLifecycleStates.Put"
+                            Name = "LearnLessonTypes.Update"
                         },
                         new
                         {
                             Id = 44,
-                            Name = "LearnModules.GetAll"
+                            Name = "LearnLifecycleStates.GetAll"
                         },
                         new
                         {
                             Id = 45,
-                            Name = "LearnModules.Get"
+                            Name = "LearnLifecycleStates.Get"
                         },
                         new
                         {
                             Id = 46,
-                            Name = "LearnModules.Create"
+                            Name = "LearnLifecycleStates.Put"
                         },
                         new
                         {
                             Id = 47,
-                            Name = "LearnModules.Update"
+                            Name = "LearnModules.GetAll"
                         },
                         new
                         {
                             Id = 48,
-                            Name = "LearnModules.Delete"
+                            Name = "LearnModules.Get"
                         },
                         new
                         {
                             Id = 49,
-                            Name = "LearnNodes.GetAll"
+                            Name = "LearnModules.Create"
                         },
                         new
                         {
                             Id = 50,
-                            Name = "LearnNodes.Get"
+                            Name = "LearnModules.Update"
                         },
                         new
                         {
                             Id = 51,
-                            Name = "LearnNodes.Create"
+                            Name = "LearnModules.Delete"
                         },
                         new
                         {
                             Id = 52,
-                            Name = "LearnNodes.Update"
+                            Name = "LearnNodes.GetAll"
                         },
                         new
                         {
                             Id = 53,
-                            Name = "LearnNodes.Delete"
+                            Name = "LearnNodes.Get"
                         },
                         new
                         {
                             Id = 54,
-                            Name = "LearnNodes.GetTree"
+                            Name = "LearnNodes.Create"
                         },
                         new
                         {
                             Id = 55,
-                            Name = "LearnNodes.UpdateTree"
+                            Name = "LearnNodes.Update"
                         },
                         new
                         {
                             Id = 56,
-                            Name = "LearnProgressStates.GetAll"
+                            Name = "LearnNodes.Delete"
                         },
                         new
                         {
                             Id = 57,
-                            Name = "LearnProgressStates.Get"
+                            Name = "LearnNodes.GetTree"
                         },
                         new
                         {
                             Id = 58,
-                            Name = "LearnProgressStates.Update"
+                            Name = "LearnNodes.UpdateTree"
                         },
                         new
                         {
                             Id = 59,
-                            Name = "LearnTags.GetAll"
+                            Name = "LearnProgressStates.GetAll"
                         },
                         new
                         {
                             Id = 60,
-                            Name = "LearnTags.Get"
+                            Name = "LearnProgressStates.Get"
                         },
                         new
                         {
                             Id = 61,
-                            Name = "LearnTags.Create"
+                            Name = "LearnProgressStates.Update"
                         },
                         new
                         {
                             Id = 62,
-                            Name = "LearnTags.Update"
+                            Name = "LearnTags.GetAll"
                         },
                         new
                         {
                             Id = 63,
-                            Name = "LearnTags.Delete"
+                            Name = "LearnTags.Get"
                         },
                         new
                         {
                             Id = 64,
-                            Name = "MyUser.Get"
+                            Name = "LearnTags.Create"
                         },
                         new
                         {
                             Id = 65,
-                            Name = "MyUser.Update"
+                            Name = "LearnTags.Update"
                         },
                         new
                         {
                             Id = 66,
-                            Name = "MyUser.GetPermissions"
+                            Name = "LearnTags.Delete"
                         },
                         new
                         {
                             Id = 67,
-                            Name = "MyUser.GetRoles"
+                            Name = "MyUser.Get"
                         },
                         new
                         {
                             Id = 68,
-                            Name = "MyUser.GetProfile"
+                            Name = "MyUser.Update"
                         },
                         new
                         {
                             Id = 69,
-                            Name = "MyUser.GetModuleProgress"
+                            Name = "MyUser.GetPermissions"
                         },
                         new
                         {
                             Id = 70,
-                            Name = "MyUser.UpdateLearnModuleProgress"
+                            Name = "MyUser.GetRoles"
                         },
                         new
                         {
                             Id = 71,
-                            Name = "MyUser.UpdateLearnLessonFinish"
+                            Name = "MyUser.GetProfile"
                         },
                         new
                         {
                             Id = 72,
-                            Name = "MyUser.GetLessonFinish"
+                            Name = "MyUser.GetModuleProgress"
                         },
                         new
                         {
                             Id = 73,
-                            Name = "Permissions.GetAll"
+                            Name = "MyUser.UpdateLearnModuleProgress"
                         },
                         new
                         {
                             Id = 74,
-                            Name = "Permissions.Get"
+                            Name = "MyUser.UpdateLearnLessonFinish"
                         },
                         new
                         {
                             Id = 75,
-                            Name = "Permissions.Put"
+                            Name = "MyUser.GetLessonFinish"
                         },
                         new
                         {
                             Id = 76,
-                            Name = "Roles.GetAll"
+                            Name = "Permissions.GetAll"
                         },
                         new
                         {
                             Id = 77,
-                            Name = "Roles.Get"
+                            Name = "Permissions.Get"
                         },
                         new
                         {
                             Id = 78,
-                            Name = "Roles.Create"
+                            Name = "Permissions.Put"
                         },
                         new
                         {
                             Id = 79,
-                            Name = "Roles.Update"
+                            Name = "Roles.GetAll"
                         },
                         new
                         {
                             Id = 80,
-                            Name = "Roles.Delete"
+                            Name = "Roles.Get"
                         },
                         new
                         {
                             Id = 81,
-                            Name = "Roles.GetPermissions"
+                            Name = "Roles.Create"
                         },
                         new
                         {
                             Id = 82,
-                            Name = "Roles.AddPermission"
+                            Name = "Roles.Update"
                         },
                         new
                         {
                             Id = 83,
-                            Name = "Roles.RemovePermission"
+                            Name = "Roles.Delete"
                         },
                         new
                         {
                             Id = 84,
-                            Name = "Users.GetAll"
+                            Name = "Roles.GetPermissions"
                         },
                         new
                         {
                             Id = 85,
-                            Name = "Users.Get"
+                            Name = "Roles.AddPermission"
                         },
                         new
                         {
                             Id = 86,
-                            Name = "Users.Create"
+                            Name = "Roles.RemovePermission"
                         },
                         new
                         {
                             Id = 87,
-                            Name = "Users.Update"
+                            Name = "Users.GetAll"
                         },
                         new
                         {
                             Id = 88,
-                            Name = "Users.Delete"
+                            Name = "Users.Get"
                         },
                         new
                         {
                             Id = 89,
-                            Name = "Users.GetProfile"
+                            Name = "Users.Create"
                         },
                         new
                         {
                             Id = 90,
-                            Name = "Users.GetPermissions"
+                            Name = "Users.Update"
                         },
                         new
                         {
                             Id = 91,
-                            Name = "Users.AddPermission"
+                            Name = "Users.Delete"
                         },
                         new
                         {
                             Id = 92,
-                            Name = "Users.RemovePermission"
+                            Name = "Users.GetProfile"
                         },
                         new
                         {
                             Id = 93,
-                            Name = "Users.GetRoles"
+                            Name = "Users.GetPermissions"
                         },
                         new
                         {
                             Id = 94,
-                            Name = "Users.AddRole"
+                            Name = "Users.AddPermission"
                         },
                         new
                         {
                             Id = 95,
+                            Name = "Users.RemovePermission"
+                        },
+                        new
+                        {
+                            Id = 96,
+                            Name = "Users.GetRoles"
+                        },
+                        new
+                        {
+                            Id = 97,
+                            Name = "Users.AddRole"
+                        },
+                        new
+                        {
+                            Id = 98,
                             Name = "Users.RemoveRole"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Name = "Users.GetUserScoreboard"
                         });
                 });
 
@@ -2089,6 +2109,30 @@ namespace ILS_BE.Migrations
                             RoleId = 1,
                             PermissionId = 95,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 96,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 97,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 98,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 99,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -2348,7 +2392,7 @@ namespace ILS_BE.Migrations
                             FirstName = "Admin",
                             LastName = "Admin",
                             Level = 1,
-                            UpdatedAt = new DateTime(2025, 6, 3, 5, 16, 51, 319, DateTimeKind.Utc).AddTicks(9758),
+                            UpdatedAt = new DateTime(2025, 6, 4, 11, 4, 59, 260, DateTimeKind.Utc).AddTicks(1162),
                             Xp = 0
                         });
                 });
