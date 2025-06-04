@@ -4,7 +4,7 @@ using ILS_BE.Domain.Interfaces;
 
 namespace ILS_BE.Application.Services
 {
-    public class PaginatedDataService<TModel, TDTO>: DataService<TModel, TDTO>, IPaginatedDataService<TDTO>
+    public class    PaginatedDataService<TModel, TDTO>: DataService<TModel, TDTO>, IPaginatedDataService<TDTO>
         where TDTO : class
         where TModel : class
     {

@@ -9,6 +9,7 @@ namespace ILS_BE.Domain.MappingProfiles
     {
         public MappingProfile()
         {
+            CreateMap<PaginatedResult<ChallengeNode>, PaginatedResult<ChallengeNodeDTO>>();
             CreateMap<PaginatedResult<LearnModule>, PaginatedResult<LearnModuleDTO>>();
 
             CreateMap<BaseEntity<int>, BaseDTO<int>>()

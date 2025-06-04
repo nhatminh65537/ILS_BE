@@ -38,6 +38,17 @@ namespace ILS_BE.Infrastructure
         public DbSet<UserModuleProgress> UserModuleProgresses { get; set; }
         public DbSet<UserFinishedLesson> UserFinishedLessons { get; set; }
 
+        public DbSet<ChallengeNode> ChallengeNodes { get; set; } = null!;
+        public DbSet<ChallengeProblem> ChallengeProblems { get; set; } = null!;
+        public DbSet<ChallengeCategory> ChallengeCategories { get; set; } = null!;
+        public DbSet<ChallengeFile> ChallengeFiles { get; set; } = null!;
+        public DbSet<ChallengeTag> ChallengeTags { get; set; } = null!;
+        public DbSet<ChallengeProblemTag> ChallengeProblemTags { get; set; } = null!;
+        public DbSet<ChallengeWriteup> ChallengeWriteups { get; set; } = null!;
+        public DbSet<ChallengeState> ChallengeStates { get; set; } = null!;
+        public DbSet<UserChallengeFinish> UserChallengeFinishes { get; set; } = null!;
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,9 +74,20 @@ namespace ILS_BE.Infrastructure
             modelBuilder.ApplyConfiguration(new UserModuleProgressConfiguration());
             modelBuilder.ApplyConfiguration(new UserFinishedLessonConfiguration());
 
+            modelBuilder.ApplyConfiguration(new ChallengeNodeConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeProblemConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeFileConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeTagConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeProblemTagConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeWriteupConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeStateConfiguration());
+            modelBuilder.ApplyConfiguration(new UserChallengeFinishConfiguration());
+
             //DataSeed
             var allPermissions = new List<Permission>();
             modelBuilder.ApplyConfiguration(new UserSeedData(_configuration));
+            modelBuilder.ApplyConfiguration(new UserProfileSeedData());
             modelBuilder.ApplyConfiguration(new RoleSeedData());
             modelBuilder.ApplyConfiguration(new UserRoleSeedData());
             modelBuilder.ApplyConfiguration(new PermissionSeedData(ref allPermissions));
@@ -74,6 +96,9 @@ namespace ILS_BE.Infrastructure
             modelBuilder.ApplyConfiguration(new LifecycleStateSeedData());
             modelBuilder.ApplyConfiguration(new ProgressStateSeedData());
             modelBuilder.ApplyConfiguration(new LessonTypeSeedData());
+            modelBuilder.ApplyConfiguration(new ChallengeNodeSeedData());
+            modelBuilder.ApplyConfiguration(new ChallengeCategorySeedData());
+            modelBuilder.ApplyConfiguration(new ChallengeStateSeedData());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

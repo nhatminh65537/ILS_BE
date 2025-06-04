@@ -9,16 +9,19 @@ namespace ILS_BE.Application.Services
     public class MyUserService : IMyUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
         public MyUserService(
             IUserRepository userRepository,
+            IRepository<UserProfile> userProfileRepository,
             IAuthService authService,
             IMapper mapper,
             IUserService userService)
         {
             _userRepository = userRepository;
+            _userProfileRepository = userProfileRepository;
             _authService = authService;
             _mapper = mapper;
             _userService = userService;
@@ -39,6 +42,9 @@ namespace ILS_BE.Application.Services
                 ?? throw new Exception("User not found");
 
             _mapper.Map(userDetailDTO, user);
+
+            await _userProfileRepository.UpdateAsync(user.Profile);
+            await _userProfileRepository.SaveAsync();
 
             await _userRepository.UpdateAsync(user);
             await _userRepository.SaveAsync();

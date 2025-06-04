@@ -11,23 +11,21 @@ namespace ILS_BE.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IDataService<UserDTO> _userDataService;
-        public UsersController(IUserService serviceProvider, IDataService<UserDTO> userDataService)
+        public UsersController(IUserService serviceProvider)
         {
             _userService = serviceProvider;
-            _userDataService = userDataService;
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return Ok(await _userDataService.GetAllAsync());
+            return Ok(await _userService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            return Ok(await _userDataService.GetByIdAsync(id));
+            return Ok(await _userService.GetByIdAsync(id));
         }
 
         // Not add User like this (User AuthController [register] instead)
@@ -35,7 +33,7 @@ namespace ILS_BE.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] UserDTO userDTO)
         {
-            userDTO = await _userDataService.AddAsync(userDTO);
+            userDTO = await _userService.AddAsync(userDTO);
             return CreatedAtAction(nameof(Get), new { id = userDTO.Id }, userDTO);
         }
 
@@ -106,6 +104,12 @@ namespace ILS_BE.API.Controllers
         {
             await _userService.RemoveRoleFromUserAsync(id, roleId);
             return NoContent();
+        }
+        [HttpGet("scoreboard")]
+        public async Task<ActionResult> GetUserScoreboard([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var res = await _userService.GetPaginatedAsync(page, pageSize);
+            return Ok(res);
         }
     }
 }

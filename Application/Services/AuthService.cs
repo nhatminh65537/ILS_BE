@@ -12,6 +12,7 @@ namespace ILS_BE.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<UserRole> _userRoleRepository; 
         private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IPasswordService _passwordService;
         private readonly ITokenService _tokenService;
@@ -19,12 +20,14 @@ namespace ILS_BE.Application.Services
 
         public AuthService(
             IRepository<User> userRepository,
+            IRepository<UserRole> userRoleRepository,
             IRepository<UserProfile> userProfileRepository,
             IPasswordService passwordService, 
             ITokenService tokenService,
             IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
             _userProfileRepository = userProfileRepository;
             _passwordService = passwordService;
             _tokenService = tokenService;
@@ -71,18 +74,31 @@ namespace ILS_BE.Application.Services
                 return false;
             }
 
-            var newUser = _passwordService.CreateUserWithHashedPassword(
-                new User { UserName = request.UserName, Email = request.Email },
-                request.Password);
-            var user = await _userRepository.AddAsync(newUser);
+            var user = await _userRepository.AddAsync(
+                _passwordService.CreateUserWithHashedPassword(
+                new User { 
+                    UserName = request.UserName, 
+                    Email = request.Email 
+                },
+                request.Password)
+            );
             await _userRepository.SaveAsync();
 
-            var userProfile = new UserProfile {
-                Id = user.Id,
-                DisplayName = request.UserName 
-            };
-            await _userProfileRepository.AddAsync(userProfile);
+            await _userProfileRepository.AddAsync(
+                new UserProfile
+                {
+                    Id = user.Id,
+                    DisplayName = request.UserName
+                }
+            );
             await _userProfileRepository.SaveAsync();
+
+            await _userRoleRepository.AddAsync(new UserRole
+            {
+                UserId = user.Id,
+                RoleId = 3 // Assuming 1 is the default role ID for new users
+            });
+            await _userRoleRepository.SaveAsync();
 
             return true;
         }

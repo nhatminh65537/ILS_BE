@@ -9,6 +9,7 @@ namespace ILS_BE.Domain.MappingProfiles
         public UserDetailMappingProfile() { 
             CreateMap<User, UserDetailDTO>()
                 .ReverseMap()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.UserName, opt => opt.Ignore())
                 .ForMember(dest => dest.Email, opt => opt.Ignore())
                 .ForMember(dest => dest.EmailVerified, opt => opt.Ignore())

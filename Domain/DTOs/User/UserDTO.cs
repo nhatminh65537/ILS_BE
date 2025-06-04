@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.Xml.XPath;
+
 namespace ILS_BE.Domain.DTOs
 {
     public class UserDTO
@@ -10,5 +13,14 @@ namespace ILS_BE.Domain.DTOs
         public bool RequirePasswordReset { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+    }
+
+    public class UserPublicDTO
+    {
+        public string DisplayName { get; set; } = null!;
+        public string AvatarPath { get; set; } = null!;
+        public int Xp { get; set; }
+        public int Level { get; set; }
+        public int Id { get; set; }
     }
 }

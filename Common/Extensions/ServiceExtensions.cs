@@ -24,6 +24,7 @@ namespace ILS_BE.Common.Extensions
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<UserEffectivePermissionRepository>();
+            services.AddScoped<ChallengeNodeRepository>();
             services.AddScoped<IPaginatedRepository<LearnModule>, LearnModuleRepository>();
             services.AddScoped<LearnModuleRepository>();
             services.AddScoped<IRepository<LearnLesson>, LearnLessonRepository>();
@@ -57,6 +58,12 @@ namespace ILS_BE.Common.Extensions
             services.AddScoped(typeof(IDataService<LearnLessonTypeDTO>), typeof(DataService<LearnLessonType, LearnLessonTypeDTO>));
             services.AddScoped(typeof(IDataService<LearnProgressStateDTO>), typeof(DataService<LearnProgressState, LearnProgressStateDTO>));
             services.AddScoped(typeof(IDataService<LearnLifecycleStateDTO>), typeof(DataService<LearnLifecycleState, LearnLifecycleStateDTO>));
+            services.AddScoped<ChallengeNodeService>();
+            services.AddScoped<ChallengeProblemService>();
+            services.AddScoped<IDataService<ChallengeCategoryDTO>, DataService<ChallengeCategory, ChallengeCategoryDTO>>();
+            services.AddScoped<IDataService<ChallengeTagDTO>, DataService<ChallengeTag, ChallengeTagDTO>>();
+            services.AddScoped<IDataService<ChallengeStateDTO>, DataService<ChallengeState, ChallengeStateDTO>>();
+            services.AddScoped<FlagCheckerService>();
         }
 
         public static void AddJWTAuthentication(this IServiceCollection services, IConfiguration configuration)

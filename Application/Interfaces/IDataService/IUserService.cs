@@ -1,4 +1,5 @@
 ﻿using ILS_BE.Domain.DTOs;
+using ILS_BE.Domain.Interfaces;
 
 namespace ILS_BE.Application.Interfaces
 {
@@ -18,5 +19,6 @@ namespace ILS_BE.Application.Interfaces
         Task UpdateUserLearnModuleProgressAsync(UserModuleProgressCreateOrUpdateDTO userModuleProgressCreateOrUpdateDTO);
 
         Task UpdateUserLearnLessonFinishAsync(int lessonId, int userId);
+        Task<PaginatedResult<UserPublicDTO>> GetPaginatedAsync(int page, int pageSize);
     }
 }

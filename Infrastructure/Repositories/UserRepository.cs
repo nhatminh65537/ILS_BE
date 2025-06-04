@@ -1,6 +1,7 @@
 ﻿using ILS_BE.Domain.Interfaces;
 using ILS_BE.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ILS_BE.Infrastructure.Repositories
 {
@@ -136,6 +137,30 @@ namespace ILS_BE.Infrastructure.Repositories
             catch (Exception ex)
             {
                 throw new Exception($"Could not retrieve user profile of user has id {userId}", ex);
+            }
+        }
+        public async Task<PaginatedResult<User>> GetUserOrderByXpAsync(int page, int pageSize)
+        {
+            try
+            {
+                var users = await _dbSet
+                    .Include(u => u.Profile)
+                    .OrderByDescending(u => u.Profile.Xp)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+                return new PaginatedResult<User>
+                {
+                    Items = users,
+                    TotalItems = await _dbSet.CountAsync(),
+                    TotalPages = (int)Math.Ceiling((double)await _dbSet.CountAsync() / pageSize),
+                    CurrentPage = page
+                };
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                throw new Exception("Could not retrieve users", ex);
             }
         }
     }

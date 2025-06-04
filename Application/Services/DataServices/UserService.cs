@@ -12,6 +12,7 @@ namespace ILS_BE.Application.Services
     public class UserService : DataService<User, UserDTO>, IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IRepository<Permission> _permissionRepository;
         private readonly IRepository<UserPermission> _userPermissionRepository;
@@ -24,6 +25,7 @@ namespace ILS_BE.Application.Services
 
         public UserService(
             IUserRepository userRepository,
+            IRepository<UserProfile> userProfileRepository,
             IRepository<UserRole> userRoleRepository,
             IRepository<Permission> permissionRepository,
             IRepository<UserPermission> userPermissionRepository,
@@ -36,6 +38,7 @@ namespace ILS_BE.Application.Services
             IMapper mapper) : base(userRepository, mapper)
         {
             _userRepository = userRepository;
+            _userProfileRepository = userProfileRepository;
             _userRoleRepository = userRoleRepository;
             _permissionRepository = permissionRepository;
             _userPermissionRepository = userPermissionRepository;
@@ -120,7 +123,7 @@ namespace ILS_BE.Application.Services
                     UserId = userModule.UserId,
                     ModuleId = userModule.ModuleId,
                     ProgressState = _mapper.Map<LearnProgressStateDTO>(progressState),
-                    ProgressPercentage = (float) sumDuration / module.Duration * 100
+                    ProgressPercentage = (float)sumDuration / module.Duration * 100
                 });
             }
             return userModuleProgressDTOs;
@@ -166,8 +169,64 @@ namespace ILS_BE.Application.Services
             if (existingLesson == null)
             {
                 await _userFinishedLessonRepository.AddAsync(userFinishedLesson);
+                var userProfile = await _userRepository.GetUserProfileAsync(userId)
+                    ?? throw new Exception($"User with ID {userId} not found");
+                var lessonNode = (await _learnNodeRepository.GetWhereAsync(n => n.LessonId == lessonId))
+                    .FirstOrDefault()
+                    ?? throw new Exception($"Lesson with ID {lessonId} not found");
+                userProfile.Xp += lessonNode.Lesson!.Xp;
+
+                userProfile.Level = (int)Math.Floor(userProfile.Xp / 1000.0);
+                await _userProfileRepository.UpdateAsync(userProfile);
+                await _userProfileRepository.SaveAsync();
+
+                var rootId = lessonNode.Path.Split('.').Skip(1).FirstOrDefault();
+                var module = await _learnModuleRepository.GetFirstWhereAsync(m => m.NodeId == int.Parse(rootId!));
+
+                var lessons = await GetUserLessonFinishAsync(userId, module!.Id);
+                var sumDuration = lessons.Sum(l => l.Duration);
+
+                if (sumDuration == module.Duration)
+                {
+                    var progressState = await _learnProgressStateRepository.GetFirstWhereAsync(ps => ps.Name == "Completed");
+                    if (progressState == null)
+                    {
+                        throw new Exception("Progress state 'Completed' not found");
+                    }
+                    var userModuleProgress = await _userModuleProgressRepository.GetFirstWhereAsync(
+                        up => up.UserId == userId && up.ModuleId == module.Id);
+                    if (userModuleProgress != null)
+                    {
+                        userModuleProgress.ProgressStateId = progressState.Id;
+                        await _userModuleProgressRepository.UpdateAsync(userModuleProgress);
+                    }
+                    else
+                    {
+                        userModuleProgress = new UserModuleProgress
+                        {
+                            UserId = userId,
+                            ModuleId = module.Id,
+                            ProgressStateId = progressState.Id
+                        };
+                        await _userModuleProgressRepository.AddAsync(userModuleProgress);
+                    }
+                    await _userModuleProgressRepository.SaveAsync();
+                }
+
             }
             await _userFinishedLessonRepository.SaveAsync();
+        }
+
+        public async Task<PaginatedResult<UserPublicDTO>> GetPaginatedAsync(int page, int pageSize)
+        {
+            var paginatedResult = await _userRepository.GetUserOrderByXpAsync(page, pageSize);
+            return new PaginatedResult<UserPublicDTO>
+            {
+                CurrentPage = paginatedResult.CurrentPage,
+                TotalItems = paginatedResult.TotalItems,
+                TotalPages = paginatedResult.TotalPages,
+                Items = _mapper.Map<List<UserPublicDTO>>(paginatedResult.Items)
+            };
         }
     }
 }

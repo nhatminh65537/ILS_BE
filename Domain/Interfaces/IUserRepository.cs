@@ -12,5 +12,6 @@ namespace ILS_BE.Domain.Interfaces
         List<Permission> GetUserPermissions(int userId);
         List<Role> GetUserRoles(int userId);
         UserProfile GetUserProfile(int userId);
+        Task<PaginatedResult<User>> GetUserOrderByXpAsync(int page, int pageSize);
     }
 }

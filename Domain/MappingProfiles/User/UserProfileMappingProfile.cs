@@ -10,6 +10,7 @@ namespace ILS_BE.Domain.MappingProfiles
         {
             CreateMap<UserProfile, UserProfileDTO>()
                 .ReverseMap()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Xp, opt => opt.Ignore())
                 .ForMember(dest => dest.Level, opt => opt.Ignore());
 
