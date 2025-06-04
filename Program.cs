@@ -18,6 +18,12 @@ namespace ILS_BE
                 options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"),
                       o => o.SetPostgresVersion(new Version(17, 4))));
 
+            using (var scope = builder.Services.BuildServiceProvider())
+            {
+                var dbContext = scope.GetRequiredService<AppDbContext>();
+                dbContext.Database.Migrate();      
+            }
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: "AllowReactClient",
@@ -63,12 +69,6 @@ namespace ILS_BE
                 app.UseSwagger();
                 app.UseSwaggerUI();
                 app.MapOpenApi();
-
-                using (var scope = app.Services.CreateScope())
-                {
-                    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    db.Database.Migrate(); // Tự động apply migration
-                }
 
                 //PreTest(app.Configuration);
             }
