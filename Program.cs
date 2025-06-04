@@ -1,4 +1,4 @@
-
+﻿
 using ILS_BE.Common.Extensions;
 using ILS_BE.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +63,12 @@ namespace ILS_BE
                 app.UseSwagger();
                 app.UseSwaggerUI();
                 app.MapOpenApi();
+
+                using (var scope = app.Services.CreateScope())
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    db.Database.Migrate(); // Tự động apply migration
+                }
 
                 //PreTest(app.Configuration);
             }
