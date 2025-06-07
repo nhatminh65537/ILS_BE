@@ -129,13 +129,13 @@ public class AuthController : ControllerBase
     /// <summary>
     /// Reset password using token.
     /// </summary>
-    [HttpPost("resetpasswd")]
+    [HttpPost("changepasswd")]
     [Authorize]
-    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
         try
         {
-            var result = await _authService.ResetPasswordAsync(request);
+            var result = await _authService.ChangePasswordAsync(request);
             return result ? Ok(new { message = "Password has been reset" })
                           : BadRequest(new { message = "Invalid Password" });
         }

@@ -11,15 +11,20 @@ namespace ILS_BE.Infrastructure.Repositories
         {
         }
 
+        private IQueryable<LearnModule> QueryWithIncludes()
+        {
+            return _dbSet
+                .Include(m => m.Category)
+                .Include(m => m.LifecycleState)
+                .Include(m => m.Tags)
+                .Include(m => m.Node);
+        }
+
         public override async Task<List<LearnModule>> GetAllAsync()
         {
             try
             {
-                return await _dbSet
-                    .Include(m => m.Category)
-                    .Include(m => m.LifecycleState)
-                    .Include(m => m.Tags)
-                    .Include(m => m.Node)
+                return await QueryWithIncludes()
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -33,11 +38,7 @@ namespace ILS_BE.Infrastructure.Repositories
         {
             try
             {
-                return await _dbSet
-                    .Include(m => m.Category)
-                    .Include(m => m.LifecycleState)
-                    .Include(m => m.Tags)
-                    .Include(m => m.Node)
+                return await QueryWithIncludes()
                     .FirstOrDefaultAsync(m => m.Id == id);
             }
             catch (Exception ex)
@@ -51,11 +52,7 @@ namespace ILS_BE.Infrastructure.Repositories
         {
             try
             {
-                return await _dbSet
-                    .Include(m => m.Category)
-                    .Include(m => m.LifecycleState)
-                    .Include(m => m.Tags)
-                    .Include(m => m.Node)
+                return await QueryWithIncludes()
                     .FirstOrDefaultAsync(expression);
             }
             catch (Exception ex)
@@ -69,11 +66,7 @@ namespace ILS_BE.Infrastructure.Repositories
         {
             try
             {
-                IQueryable<LearnModule> query = _dbSet
-                    .Include(m => m.Category)
-                    .Include(m => m.LifecycleState)
-                    .Include(m => m.Tags)
-                    .Include(m => m.Node);
+                IQueryable<LearnModule> query = QueryWithIncludes();
 
                 var totalItems = await query.CountAsync();
 
@@ -100,7 +93,6 @@ namespace ILS_BE.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                // Log exception
                 throw new Exception("Could not retrieve paginated entities", ex);
             }
         }

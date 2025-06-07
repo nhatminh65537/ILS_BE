@@ -123,7 +123,7 @@ namespace ILS_BE.Application.Services
                     UserId = userModule.UserId,
                     ModuleId = userModule.ModuleId,
                     ProgressState = _mapper.Map<LearnProgressStateDTO>(progressState),
-                    ProgressPercentage = (float)sumDuration / module.Duration * 100
+                    ProgressPercentage = module.Duration > 0? (float)sumDuration / module.Duration * 100 : 0
                 });
             }
             return userModuleProgressDTOs;

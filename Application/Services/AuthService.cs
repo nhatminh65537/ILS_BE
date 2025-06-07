@@ -103,7 +103,7 @@ namespace ILS_BE.Application.Services
             return true;
         }
 
-        public async Task<bool> ResetPasswordAsync(ResetPasswordRequest request)
+        public async Task<bool> ChangePasswordAsync(ChangePasswordRequest request)
         {
             var userId = GetUserId();
             User user = (await _userRepository.GetByIdAsync(userId))!;

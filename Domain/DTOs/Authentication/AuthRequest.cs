@@ -51,13 +51,13 @@ namespace ILS_BE.Domain.DTOs
         public string Email { get; set; } = null!;
     }
 
-    public class ResetPasswordRequest
+    public class ChangePasswordRequest
     {
         [Required]
         public string OldPassword { get; set; } = null!;
 
         [Required]
-        [MinLength(6)]
+        [MinLength(8)]
         public string NewPassword { get; set; } = null!;
     }
 

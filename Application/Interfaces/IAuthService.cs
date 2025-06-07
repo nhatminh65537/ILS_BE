@@ -10,7 +10,7 @@ namespace ILS_BE.Application.Interfaces
         Task LogoutAsync();
         Task<bool> VerifyEmailAsync(string token);
         Task SendPasswordResetEmailAsync(string email);
-        Task<bool> ResetPasswordAsync(ResetPasswordRequest request);
+        Task<bool> ChangePasswordAsync(ChangePasswordRequest request);
         int GetUserId();
     }
 }

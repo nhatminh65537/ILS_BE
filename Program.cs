@@ -1,6 +1,7 @@
 ﻿
 using ILS_BE.Common.Extensions;
 using ILS_BE.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 namespace ILS_BE
@@ -62,6 +63,10 @@ namespace ILS_BE
 
             builder.Services.AddHttpContextAccessor();
 
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                builder.Configuration.GetSection("Kestrel").Bind(options);
+            }).UseKestrel();
 
             var app = builder.Build();
 
