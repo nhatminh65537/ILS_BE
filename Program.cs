@@ -1,4 +1,5 @@
 ﻿
+using ILS_BE.Application.Authorization;
 using ILS_BE.Common.Extensions;
 using ILS_BE.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,8 @@ namespace ILS_BE
             });
 
             builder.Services.AddScoped<AppDbContext>();
+
+            builder.Services.AddSingleton<UserPermissionStore>();
 
             builder.Services.AddRepositories();
 

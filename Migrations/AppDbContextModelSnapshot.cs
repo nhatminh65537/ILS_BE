@@ -2410,7 +2410,7 @@ namespace ILS_BE.Migrations
                             FirstName = "Admin",
                             LastName = "Admin",
                             Level = 1,
-                            UpdatedAt = new DateTime(2025, 6, 7, 18, 19, 33, 324, DateTimeKind.Utc).AddTicks(6012),
+                            UpdatedAt = new DateTime(2025, 6, 8, 7, 56, 44, 839, DateTimeKind.Utc).AddTicks(8974),
                             Xp = 0
                         });
                 });
