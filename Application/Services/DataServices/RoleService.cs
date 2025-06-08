@@ -3,6 +3,7 @@ using ILS_BE.Domain.Models;
 using ILS_BE.Domain.Interfaces;
 using ILS_BE.Application.Interfaces;
 using AutoMapper;
+using ILS_BE.Application.Authorization;
 
 namespace ILS_BE.Application.Services
 {
@@ -10,15 +11,18 @@ namespace ILS_BE.Application.Services
     {
         private readonly IRepository<Permission> _permissionRepository;
         private readonly IRepository<RolePermission> _rolePermissionRepository;
+        private readonly UserPermissionStore _userPermissionStore;
 
         public RoleService(
             IRepository<Role> roleRepository,
             IRepository<Permission> permissionRepository,
             IRepository<RolePermission> rolePermissionRepository,
+            UserPermissionStore userPermissionStore,
             IMapper mapper ) : base(roleRepository, mapper)
         {
             _permissionRepository = permissionRepository;
             _rolePermissionRepository = rolePermissionRepository;
+            _userPermissionStore = userPermissionStore;
         }
 
         public override async Task UpdateAsync(RoleDTO roleDTO)
@@ -69,6 +73,9 @@ namespace ILS_BE.Application.Services
             };
             await _rolePermissionRepository.AddAsync(rolePermission);
             await _rolePermissionRepository.SaveAsync();
+
+            // Update the user permission store to reflect the new permission
+            await _userPermissionStore.LoadPermissions();
         }
 
         public async Task RemovePermissionFromRoleAsync(int roleId, int permissionId)
@@ -77,6 +84,9 @@ namespace ILS_BE.Application.Services
                 rp => rp.RoleId == roleId && rp.PermissionId == permissionId
             );
             await _rolePermissionRepository.SaveAsync();
+
+            // Update the user permission store to reflect the removed permission
+            await _userPermissionStore.LoadPermissions();
         }
     }
 }

@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using ILS_BE.Domain.DTOs;
 using ILS_BE.Application.Services.DataServices;
+using Microsoft.AspNetCore.Authorization;
+using ILS_BE.Application.Authorization;
 
 namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/challengenodes")]
+    [Authorize]
     public class ChallengeNodeController : ControllerBase
     {
         private readonly ChallengeNodeService _service;
@@ -35,6 +38,7 @@ namespace ILS_BE.API.Controllers
         //}
 
         // POST: create node
+        [PermissionAuthorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ChallengeNodeCreateOrUpdateDTO dto)
         {
@@ -51,6 +55,7 @@ namespace ILS_BE.API.Controllers
         }
 
         // PUT: update node
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ChallengeNodeCreateOrUpdateDTO dto)
         {
@@ -61,6 +66,7 @@ namespace ILS_BE.API.Controllers
         }
 
         // DELETE: delete node and all subnodes/problems
+        [PermissionAuthorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -1,11 +1,14 @@
-﻿using ILS_BE.Application.Interfaces;
+﻿using ILS_BE.Application.Authorization;
+using ILS_BE.Application.Interfaces;
 using ILS_BE.Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class LearnLifecycleStatesController : ControllerBase
     {
         private readonly IDataService<LearnLifecycleStateDTO> _dataService;
@@ -23,6 +26,8 @@ namespace ILS_BE.API.Controllers
         {
             return Ok(await _dataService.GetByIdAsync(id));
         }
+
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, LearnLifecycleStateDTO lifecycleState)
         {

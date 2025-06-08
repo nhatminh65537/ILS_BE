@@ -1,11 +1,14 @@
-﻿using ILS_BE.Application.Interfaces;
+﻿using ILS_BE.Application.Authorization;
+using ILS_BE.Application.Interfaces;
 using ILS_BE.Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class LearnTagsController : ControllerBase
     {
         private readonly IDataService<LearnTagDTO> _tagDataService;
@@ -23,12 +26,16 @@ namespace ILS_BE.API.Controllers
         {
             return Ok(await _tagDataService.GetByIdAsync(id));
         }
+
+        [PermissionAuthorize]
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] LearnTagDTO tagDTO)
         {
             tagDTO = await _tagDataService.AddAsync(tagDTO);
             return CreatedAtAction(nameof(Get), new { id = tagDTO.Id }, tagDTO);
         }
+
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] LearnTagDTO tagDTO)
         {
@@ -39,6 +46,8 @@ namespace ILS_BE.API.Controllers
             await _tagDataService.UpdateAsync(tagDTO);
             return NoContent();
         }
+
+        [PermissionAuthorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

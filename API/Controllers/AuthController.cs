@@ -129,8 +129,8 @@ public class AuthController : ControllerBase
     /// <summary>
     /// Reset password using token.
     /// </summary>
-    [HttpPost("changepasswd")]
     [Authorize]
+    [HttpPost("changepasswd")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
         try

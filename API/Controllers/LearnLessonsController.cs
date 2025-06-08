@@ -2,11 +2,14 @@ using ILS_BE.Domain.DTOs;
 using ILS_BE.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ILS_BE.Application.Services.DataServices;
+using ILS_BE.Application.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ILS_BE.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class LearnLessonsController : ControllerBase
     {
         private readonly LearnLessonService _lessonService;
@@ -27,6 +30,7 @@ namespace ILS_BE.API.Controllers
             return Ok(await _lessonService.GetByIdAsync(id));
         }
 
+        [PermissionAuthorize]
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] LearnLessonCreateOrUpdateDTO lessonDTO)
         {
@@ -34,6 +38,7 @@ namespace ILS_BE.API.Controllers
             return CreatedAtAction(nameof(Get), new { id = lessonDTO.Id }, lessonDTO);
         }
 
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] LearnLessonCreateOrUpdateDTO lessonDTO)
         {
@@ -45,6 +50,7 @@ namespace ILS_BE.API.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

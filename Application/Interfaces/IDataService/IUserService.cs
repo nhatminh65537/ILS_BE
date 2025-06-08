@@ -5,8 +5,8 @@ namespace ILS_BE.Application.Interfaces
 {
     public interface IUserService : IDataService<UserDTO>
     {
-        Task<UserDTO> GetByUsernameAsync(string username);
-        Task<UserDTO> GetByEmailAsync(string email);
+        Task<UserDTO?> GetByUsernameAsync(string username);
+        Task<UserDTO?> GetByEmailAsync(string email);
         Task<UserProfileDTO> GetUserProfileAsync(int userId);
         Task<List<RoleDTO>> GetRolesOfUserAsync(int userId);
         Task AddRoleToUserAsync(int userId, int roleId);

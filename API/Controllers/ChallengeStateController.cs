@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using ILS_BE.Domain.DTOs;
 using ILS_BE.Application.Services.DataServices;
 using ILS_BE.Application.Interfaces;
+using ILS_BE.Application.Authorization;
 
 namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/challengestates")]
+    [Authorize]
     public class ChallengeStateController : ControllerBase
     {
         private readonly IDataService<ChallengeStateDTO> _challengeStateService;
@@ -31,6 +33,7 @@ namespace ILS_BE.API.Controllers
             return state != null ? Ok(state) : NotFound();
         }
 
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ChallengeStateDTO challengeStateDTO)
         {

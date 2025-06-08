@@ -3,11 +3,13 @@ using ILS_BE.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
 using ILS_BE.Application.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ILS_BE.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -20,6 +22,28 @@ namespace ILS_BE.API.Controllers
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _userService.GetAllAsync());
+        }
+
+        [HttpGet("by-username/{username}")]
+        public async Task<ActionResult> GetByUsername(string username)
+        {
+            var user = await _userService.GetByUsernameAsync(username);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        [HttpGet("by-email/{email}")]
+        public async Task<ActionResult> GetByEmail(string email)
+        {
+            var user = await _userService.GetByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
 
         [HttpGet("{id}")]
@@ -37,6 +61,7 @@ namespace ILS_BE.API.Controllers
             return CreatedAtAction(nameof(Get), new { id = userDTO.Id }, userDTO);
         }
 
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] UserDTO userDTO)
         {
@@ -57,6 +82,7 @@ namespace ILS_BE.API.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize]
         [HttpGet("{id}/profile")]
         public async Task<ActionResult> GetProfile(int id)
         {
@@ -71,6 +97,7 @@ namespace ILS_BE.API.Controllers
             return Ok(permissions);
         }
 
+        [PermissionAuthorize]
         [HttpPost("{id}/permissions/{permissionId}")]
         public async Task<ActionResult> AddPermission(int id, int permissionId)
         {
@@ -78,6 +105,7 @@ namespace ILS_BE.API.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize]
         [HttpDelete("{id}/permissions/{permissionId}")]
         public async Task<ActionResult> RemovePermission(int id, int permissionId)
         {
@@ -92,6 +120,7 @@ namespace ILS_BE.API.Controllers
             return Ok(roles);
         }
 
+        [PermissionAuthorize]
         [HttpPost("{id}/roles/{roleId}")]
         public async Task<ActionResult> AddRole(int id, int roleId)
         {
@@ -99,6 +128,7 @@ namespace ILS_BE.API.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize]
         [HttpDelete("{id}/roles/{roleId}")]
         public async Task<ActionResult> RemoveRole(int id, int roleId)
         {

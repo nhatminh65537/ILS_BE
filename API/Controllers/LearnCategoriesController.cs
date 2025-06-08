@@ -1,11 +1,14 @@
-﻿using ILS_BE.Application.Interfaces;
+﻿using ILS_BE.Application.Authorization;
+using ILS_BE.Application.Interfaces;
 using ILS_BE.Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class LearnCategoriesController : ControllerBase
     {
         private readonly IDataService<LearnCategoryDTO> _categoryDataService;
@@ -23,12 +26,16 @@ namespace ILS_BE.API.Controllers
         {
             return Ok(await _categoryDataService.GetByIdAsync(id));
         }
+
+        [PermissionAuthorize]
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] LearnCategoryDTO categoryDTO)
         {
             await _categoryDataService.AddAsync(categoryDTO);
             return CreatedAtAction(nameof(Get), new { id = categoryDTO.Id }, categoryDTO);
         }
+
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] LearnCategoryDTO categoryDTO)
         {
@@ -39,6 +46,8 @@ namespace ILS_BE.API.Controllers
             await _categoryDataService.UpdateAsync(categoryDTO);
             return NoContent();
         }
+
+        [PermissionAuthorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

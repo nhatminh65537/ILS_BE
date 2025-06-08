@@ -2,11 +2,14 @@ using ILS_BE.Domain.DTOs;
 using ILS_BE.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ILS_BE.Application.Services.DataServices;
+using ILS_BE.Application.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ILS_BE.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class LearnModulesController : ControllerBase
     {
         private readonly LearnModuleService _moduleDataService;
@@ -36,6 +39,7 @@ namespace ILS_BE.API.Controllers
             return Ok(await _moduleDataService.GetByIdAsync(id));
         }
 
+        [PermissionAuthorize]
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] LearnModuleCreateOrUpdateDTO moduleCreateDTO)
         {
@@ -43,6 +47,7 @@ namespace ILS_BE.API.Controllers
             return CreatedAtAction(nameof(Get), new { id = moduleDTO.Id }, moduleDTO);
         }
 
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] LearnModuleCreateOrUpdateDTO moduleDTO)
         {
@@ -54,6 +59,7 @@ namespace ILS_BE.API.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

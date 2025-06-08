@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using AutoMapper;
 using ILS_BE.Application.Interfaces;
 using System.Collections.Generic;
+using ILS_BE.Application.Authorization;
 
 namespace ILS_BE.Application.Services
 {
@@ -22,6 +23,7 @@ namespace ILS_BE.Application.Services
         private readonly IRepository<UserModuleProgress> _userModuleProgressRepository;
         private readonly IRepository<LearnProgressState> _learnProgressStateRepository;
         private readonly UserEffectivePermissionRepository _userEffectivePermissionRepository;
+        private readonly UserPermissionStore _userPermissionStore;
 
         public UserService(
             IUserRepository userRepository,
@@ -35,6 +37,7 @@ namespace ILS_BE.Application.Services
             IRepository<UserModuleProgress> userModuleProgressRepository,
             IRepository<LearnProgressState> learnProgressStateRepository,
             UserEffectivePermissionRepository userEffectivePermissionRepository,
+            UserPermissionStore userPermissionStore,
             IMapper mapper) : base(userRepository, mapper)
         {
             _userRepository = userRepository;
@@ -48,17 +51,18 @@ namespace ILS_BE.Application.Services
             _userModuleProgressRepository = userModuleProgressRepository;
             _learnProgressStateRepository = learnProgressStateRepository;
             _userEffectivePermissionRepository = userEffectivePermissionRepository;
+            _userPermissionStore = userPermissionStore;
         }
 
-        public async Task<UserDTO> GetByUsernameAsync(string username)
+        public async Task<UserDTO?> GetByUsernameAsync(string username)
         {
             var user = await _userRepository.GetFirstWhereAsync(u => u.UserName == username);
-            return _mapper.Map<UserDTO>(user);
+            return _mapper.Map<UserDTO?>(user);
         }
-        public async Task<UserDTO> GetByEmailAsync(string email)
+        public async Task<UserDTO?> GetByEmailAsync(string email)
         {
             var user = await _userRepository.GetFirstWhereAsync(u => u.Email == email);
-            return _mapper.Map<UserDTO>(user);
+            return _mapper.Map<UserDTO?>(user);
         }
         public async Task<UserProfileDTO> GetUserProfileAsync(int userId)
         {
@@ -77,12 +81,18 @@ namespace ILS_BE.Application.Services
             var userRole = new UserRole { UserId = userId, RoleId = roleId };
             await _userRoleRepository.AddAsync(userRole);
             await _userRoleRepository.SaveAsync();
+
+            // Update user effective permissions after adding a role
+            await _userPermissionStore.LoadPermissions();
         }
 
         public async Task RemoveRoleFromUserAsync(int userId, int roleId)
         {
             await _userRoleRepository.DeleteWhereAsync(ur => ur.UserId == userId && ur.RoleId == roleId);
             await _userRoleRepository.SaveAsync();
+
+            // Update user effective permissions after removing a role
+            await _userPermissionStore.LoadPermissions();
         }
 
         public async Task<List<PermissionDTO>> GetEffectivePermissionsOfUserAsync(int userId)
@@ -98,12 +108,18 @@ namespace ILS_BE.Application.Services
             var userPermission = new UserPermission { UserId = userId, PermissionId = permissionId };
             await _userPermissionRepository.AddAsync(userPermission);
             await _userPermissionRepository.SaveAsync();
+
+            // Update user effective permissions after adding a permission
+            await _userPermissionStore.LoadPermissions();
         }
 
         public async Task RemovePermissionFromUserAsync(int userId, int permissionId)
         {
             await _userPermissionRepository.DeleteWhereAsync(up => up.UserId == userId && up.PermissionId == permissionId);
             await _userPermissionRepository.SaveAsync();
+
+            // Update user effective permissions after removing a permission
+            await _userPermissionStore.LoadPermissions();
         }
 
         public async Task<List<UserModuleProgressDTO>> GetUserModuleProgressAsync(int userId)

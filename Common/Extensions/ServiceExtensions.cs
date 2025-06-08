@@ -109,6 +109,7 @@ namespace ILS_BE.Common.Extensions
         public static void AddAuthorizationPermissions(this IServiceCollection services)
         { 
             services.AddSingleton<UserPermissionStore>();
+            services.AddHostedService<UserPermissionLoaderHostedService>();
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
                                                                     

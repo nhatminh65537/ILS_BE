@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using ILS_BE.Domain.DTOs;
 using ILS_BE.Application.Services.DataServices;
 using ILS_BE.Application.Interfaces;
+using ILS_BE.Application.Authorization;
 
 namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/challengetags")]
+    [Authorize]
     public class ChallengeTagController : ControllerBase
     {
         private readonly IDataService<ChallengeTagDTO> _challengeTagService;
@@ -31,6 +33,7 @@ namespace ILS_BE.API.Controllers
             return tag != null ? Ok(tag) : NotFound();
         }
 
+        [PermissionAuthorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ChallengeTagDTO challengeTagDTO)
         {
@@ -38,6 +41,7 @@ namespace ILS_BE.API.Controllers
             return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
         }
 
+        [PermissionAuthorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ChallengeTagDTO challengeTagDTO)
         {
@@ -50,6 +54,7 @@ namespace ILS_BE.API.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

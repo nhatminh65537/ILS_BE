@@ -1,11 +1,13 @@
 ﻿using ILS_BE.Application.Interfaces;
 using ILS_BE.Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class LearnProgressStatesController : ControllerBase
     {
         private readonly IDataService<LearnProgressStateDTO> _progressStateDataService;

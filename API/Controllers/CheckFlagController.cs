@@ -7,6 +7,7 @@ namespace ILS_BE.API.Controllers
 {
     [ApiController]
     [Route("api/v1/flag")]
+    [Authorize]
     public class CheckFlagController : ControllerBase
     {
         private readonly FlagCheckerService _flagCheckerService;
@@ -20,7 +21,6 @@ namespace ILS_BE.API.Controllers
         /// Check submitted flag for a challenge.
         /// </summary>
         [HttpPost("check")]
-        [Authorize]
         public async Task<IActionResult> CheckFlag([FromBody] FlagCheckerSubmitDTO request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.Flag))
