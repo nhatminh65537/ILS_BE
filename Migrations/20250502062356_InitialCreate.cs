@@ -558,12 +558,12 @@ namespace ILS_BE.Migrations
 
             migrationBuilder.InsertData(
                 table: "roles",
-                columns: new[] { "id", "description", "name" },
+                columns: new[] { "id", "description", "name", "changeable" },
                 values: new object[,]
                 {
-                    { 1, null, "Admin" },
-                    { 2, null, "Collaborator" },
-                    { 3, null, "User" }
+                    { 1, null, "Admin", false },
+                    { 2, null, "Collaborator", false },
+                    { 3, null, "User", false }
                 });
 
             migrationBuilder.InsertData(
